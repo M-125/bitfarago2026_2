@@ -1,5 +1,7 @@
 function gameLogic(field) {}
 
+let field = []; // Make the field variable
+
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
     // Field is the playing area defined by the user. 0-0 Is the upper left corner.
@@ -12,7 +14,7 @@ function initField(size) {
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
     const gyumi_fraction = 5; // How common is it for a fruit to get placed [1 / gyumi_fraction]
-    let field = []; // Make the field variable
+
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
         field[i] = []; // Make an empty array for a new row
@@ -64,9 +66,9 @@ function drawField(field) {
         ) {
             to_draw += [
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">nincs</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, ${field})">alma</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, ${field})">szolo</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, ${field})">korte</button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">test(?)</button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">fej</button></div>`,
             ][field[i][u]]; // Get whatever is supposed to get drawn from the array
@@ -78,9 +80,9 @@ function drawField(field) {
     document.getElementById("playArea").innerHTML = to_draw; // Render the elements
 }
 
-function placePlayer(row, column, field) {
-    console.log(row, column, field);
-    field[row][column].splice(0, 1, 5);
+function placePlayer(row, column) {
+    console.log(row, column, field[row]);
+    field[row].splice(column, 1, 5);
     drawField(field);
 }
 

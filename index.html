@@ -4,7 +4,11 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+            crossorigin="anonymous"
+            integrity=""
+        ></script>
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,11 +28,11 @@
     <body class="bg-blue-200/80">
         <div>
             <header>
-                <h1 class="text-5xl text-center font-bold lili">
+                <h1 class="text-5xl text-center font-bold lili mt-10 mb-5">
                     Gyümimajszoló
                 </h1>
             </header>
-            <div id="playArea" class="ring-4 m-10 grid justify-center"></div>
+            <div id="playArea" class="ring-4 m-auto w-fit"></div>
         </div>
         <script src="app.js"></script>
     </body>

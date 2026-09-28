@@ -1,10 +1,7 @@
 function gameLogic(field) {}
 
-const fruit_energy={"apple":4,"grape":5,"pear":6}
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
-let energy=0
-let collected={"apple":0,"grape":0,"pear":0}
 
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
@@ -18,7 +15,7 @@ function initField(size) {
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
     const gyumi_fraction = 5; // How common is it for a fruit to get placed [1 / gyumi_fraction]
-    
+
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
         field[i] = []; // Make an empty array for a new row
@@ -43,9 +40,7 @@ function initField(size) {
 function initGame() {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
     // Someone pls make a popup for size selection :3
-    const size = 16;
-    energy=Math.ceil((size*size/5) * 1.2)
-    collected={"apple":0,"grape":0,"pear":0}
+    const size = 10;
     let field = initField(size); // Initialize field with given size
     drawField(field); // Draw the field
     // tile-${i}-${u} is there to help with putting the player on the desired square
@@ -72,9 +67,9 @@ function drawField(field) {
         ) {
             to_draw += [
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">nincs</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'apple')"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'grape')"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'pear')"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">test(?)</button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">fej</button></div>`,
             ][field[i][u]]; // Get whatever is supposed to get drawn from the array
@@ -86,47 +81,17 @@ function drawField(field) {
     document.getElementById("playArea").innerHTML = to_draw; // Render the elements
 }
 
-function placePlayer(row, column,fruit) {
+function placePlayer(row, column) {
     if (last_tile_player_was_on.length > 0) {
-        energy-= Math.abs(row-last_tile_player_was_on[0])+Math.abs(column-last_tile_player_was_on[1])
-        if (energy<0){
-            gameOver()
-        }
         field[last_tile_player_was_on[0]].splice(
             last_tile_player_was_on[1],
             1,
             0,
         ); // Make the last tile that the player was on empty
     }
-    collected[fruit]+=1
-    document.getElementById("energy").innerHTML=energy
-    for (fruit in collected){
-        document.getElementById(fruit).innerHTML=collected[fruit]
-    }
     last_tile_player_was_on = [row, column];
     field[row].splice(column, 1, 5); // Replace given tile with player head
     drawField(field); // Draw the new field with the player head
-}
-function eatFruit(fruit){
-    collected[fruit]-=1
-    energy+=fruit_energy[fruit]
-}
-function gameOver(){
-    initGame();
-}
-
-function validateStart() {
-    const field_side_size = document.getElementById("field_size").ariaValueMax
-    const error_div = document.getElementById("error_field");
-
-    if (field_side_size >= 10 && field_side_size <= 13) {
-
-    }
-    else {
-        error_div.innerHTML = `
-            <p class="text-md text-center font-bold lili mb-5 text-red">A pályaméret nem megfelelő!</p>
-        `;
-    }
 }
 
 initGame();

@@ -115,4 +115,18 @@ function gameOver(){
     initGame();
 }
 
+function validateStart() {
+    const field_side_size = document.getElementById("field_size").ariaValueMax
+    const error_div = document.getElementById("error_field");
+
+    if (field_side_size >= 10 && field_side_size <= 13) {
+
+    }
+    else {
+        error_div.innerHTML = `
+            <p class="text-md text-center font-bold lili mb-5 text-red">A pályaméret nem megfelelő!</p>
+        `;
+    }
+}
+
 initGame();

@@ -3,3 +3,10 @@
 	font-weight: 400;
 	font-style: normal;
 }
+.corner{
+	position:relative;
+	bottom:65%;
+	color:white;
+	font-size: 120%;
+	/* font-weight: bold; */
+}

@@ -28,10 +28,14 @@
     <body class="bg-blue-200/80">
         <div>
             <header>
-                <h1 class="text-5xl text-center font-bold lili mt-10 mb-5">
+                <h1 class="text-5xl text-center font-bold lili mt-9 mb-5">
                     Gyümimajszoló
                 </h1>
             </header>
+            <p id="energy"></p>
+            <button onclick="eatFruit('apple')" class=" w-15 h-15"><img class="h-15" src="assets/apple.svg"/><p id="apple" class="corner lili">X</p></button>
+            <button onclick="eatFruit('grape')" class=" w-15 h-15"><img class="h-15" src="assets/grape.svg"/><p id="grape" class="corner lili">X</p></button>
+            <button onclick="eatFruit('pear')" class=" w-15 h-15"><img class="h-15" src="assets/pear.svg"/><p id="pear" class="corner lili">X</p></button>
             <div id="playArea" class="ring-4 m-auto w-fit"></div>
         </div>
         <script src="app.js"></script>

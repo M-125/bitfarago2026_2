@@ -1,9 +1,13 @@
 function gameLogic(field) {}
 
-const MAX_SIDE_SIZE = 16;
-const MIN_SIDE_SIZE = 10;
+// GOLBALS START
+
+const MAX_SIDE_SIZE = 17; // Maximum size of field
+const MIN_SIDE_SIZE = 10; // Minimum size of field
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
+
+// GLOBALS END
 
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
@@ -87,23 +91,24 @@ function HexToHSL(hex) {
     return [h, s, l];
 }
 
+// When color in color selector is changed, call whatchColorPicker function
 document
     .getElementById("character_color")
     .addEventListener("change", watchColorPicker);
 
 function watchColorPicker(event) {
+    // Converts hex values to hsl and passes relative new colors to svg in color picker
     // Base colors in hsl
     // Primary = 133, 51, 50
     // Secondary = 133, 55, 37   relative to primary = 1, 1.078, 0.74
     // Tetriary = 133, 63, 62   relative to primary = 1, 1.235, 1.24
     // Quaternary = 133, 59, 26   relative to primary = 1, 1.157, 0.52
-    base_color_hsl = HexToHSL(event.target.value);
-    dino_primary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1]}%, ${base_color_hsl[2]}%)`;
-    dino_secondary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.078}%, ${base_color_hsl[2] * 0.74}%)`;
-    dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`;
-    dino_quaternary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.157}%, ${base_color_hsl[2] * 0.52}%)`;
-    console.log(dino_primary, dino_secondary, dino_tetriary);
-
+    base_color_hsl = HexToHSL(event.target.value); // Get selected value from picker in hex, convert it to hsl with HexToHSL function, this will be the new primary color. Stored as a list eg. [133, 55, 47]
+    dino_primary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1]}%, ${base_color_hsl[2]}%)`; // The biggest part
+    dino_secondary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.078}%, ${base_color_hsl[2] * 0.74}%)`; // Get new secondary color based on default color relations
+    dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`; // Get new tetriary color based on default color relations
+    dino_quaternary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.157}%, ${base_color_hsl[2] * 0.52}%)`; // Get new quaternary color based on default color relations
+    // Set correct values in displayed svg
     document.getElementById("dino_primary_color").style.fill = dino_primary;
     document.getElementById("dino_secondary_color").style.fill = dino_secondary;
     document.getElementById("dino_tetriary_color").style.fill = dino_tetriary;
@@ -111,16 +116,16 @@ function watchColorPicker(event) {
         dino_quaternary;
 }
 
+// When start is pressed, initialize the game
 document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
-    // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
-    // Someone pls make a popup for size selection :3
+    // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    const size = formData.get("field_size_input");
-    const color = formData.get("character_color");
+    const size = formData.get("field_size_input"); // Get set size for initialization
+    const color = formData.get("character_color"); // Get set color for correct display of player
 
     let field = initField(size); // Initialize field with given size
 
@@ -136,9 +141,10 @@ function drawField(field, color) {
     const tile_classes =
         "ring-2 aspect-square h-13 w-13 bg-orange-200 text-center"; // Used for classing the tile divs
     const button_classes = ""; // Used for classing tile buttons
-    const main_color = color;
+    const primary_color = color;
     const secondary_color = color;
     const tetriary_color = color;
+    const quaternary_color = color;
     for (
         let i = 0;
         i < field_size;
@@ -181,21 +187,18 @@ function placePlayer(row, column) {
 
 function validateStart() {
     const field_side = document.getElementById("field_size").value;
+    // Get selected value of field size
     const error_div = document.getElementById("error_field");
+    // Store div with id error_field, used to display error messages in popup
 
-    if (field_side >= MIN_SIDE_SIZE && field_side <= MAX_SIDE_SIZE) {
+    if (
+        MIN_SIDE_SIZE <
+        field_side <
+        MAX_SIDE_SIZE
+    ) // If the selected size of the field is less than the limit or more than it display an error message
+    {
         error_div.innerHTML = ``;
     } else {
         error_div.innerHTML = `<p class="text-xl text-center text-red-600 font-bold lili mb-5">A pályaméret nem szabályos!</p>`;
-    }
-}
-
-function validateStart() {
-    if (
-        5 <
-        document.getElementById("field_size_input").getAttribute("value") <
-        17
-    ) {
-        document.getElementById("selection_popup").classList.toggle("hidden");
     }
 }

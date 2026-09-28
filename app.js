@@ -44,7 +44,7 @@ function initField(size) {
 }
 
 function startPopup() {
-    const popup_div = document.getElementById("popup");
+    const popup_div = document.getElementById("selection_popup");
 
     popup_div.innerHTML = `<div class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg">
             <p class="text-4xl text-center font-bold lili mb-5">Opciók</p>
@@ -214,7 +214,9 @@ function placePlayer(row, column) {
 }
 
 function validateStart() {
-    const field_side = document.getElementById("field_size").value;
+    const field_side = document
+        .getElementById("field_size")
+        .getAttribute("value");
     // Get selected value of field size
     const error_div = document.getElementById("error_field");
     // Store div with id error_field, used to display error messages in popup

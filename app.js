@@ -1,7 +1,11 @@
 function gameLogic(field) {}
 
+// GLOBALS START
+
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
+
+// GLOBALS END
 
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
@@ -87,7 +91,7 @@ function HexToHSL(hex) {
 
 document
     .getElementById("character_color")
-    .addEventListener("change", watchColorPicker);
+    .addEventListener("change", watchColorPicker); // If color is changed in popup, change preview dino too
 
 function watchColorPicker(event) {
     // Base colors in hsl
@@ -95,11 +99,12 @@ function watchColorPicker(event) {
     // Secondary = 133, 55, 37   relative to primary = 1, 1.078, 0.74
     // Tetriary = 133, 63, 62   relative to primary = 1, 1.235, 1.24
     // Quaternary = 133, 59, 26   relative to primary = 1, 1.157, 0.52
-    base_color_hsl = HexToHSL(event.target.value);
-    dino_primary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1]}%, ${base_color_hsl[2]}%)`;
-    dino_secondary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.078}%, ${base_color_hsl[2] * 0.74}%)`;
-    dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`;
-    dino_quaternary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.157}%, ${base_color_hsl[2] * 0.52}%)`;
+    base_color_hsl = HexToHSL(event.target.value); // Get selected value from picker in hex, convert it to hsl with HexToHSL function, this will be the new primary color. Stored as a list eg. [133, 55, 47]
+    dino_primary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1]}%, ${base_color_hsl[2]}%)`; // The biggest part
+    dino_secondary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.078}%, ${base_color_hsl[2] * 0.74}%)`; // Get new secondary color based on default color relations
+    dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`; // Get new tetriary color based on default color relations
+    dino_quaternary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.157}%, ${base_color_hsl[2] * 0.52}%)`; // Get new quaternary color based on default color relations
+    // Set correct values in displayed svg
     console.log(dino_primary, dino_secondary, dino_tetriary);
 
     document.getElementById("dino_primary_color").style.fill = dino_primary;
@@ -109,6 +114,7 @@ function watchColorPicker(event) {
         dino_quaternary;
 }
 
+// When start is pressed, initialize the game
 document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
@@ -181,7 +187,8 @@ function validateStart() {
         5 <
         document.getElementById("field_size_input").getAttribute("value") <
         17
-    ) {
+    ) // If the inputted field size doesnt differ from its min or max hide the popup
+    {
         document.getElementById("selection_popup").classList.toggle("hidden");
     }
 }

@@ -1,5 +1,7 @@
 function gameLogic(field) {}
 
+const MAX_SIDE_SIZE = 16;
+const MIN_SIDE_SIZE = 10;
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
 
@@ -37,10 +39,16 @@ function initField(size) {
     return field;
 }
 
+function startPopup() {
+    const popup_div = 
+}
+
 function initGame() {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
-    // Someone pls make a popup for size selection :3
-    const size = 10;
+    
+
+
+    const size = MIN_SIDE_SIZE;
     let field = initField(size); // Initialize field with given size
     drawField(field); // Draw the field
     // tile-${i}-${u} is there to help with putting the player on the desired square
@@ -92,6 +100,19 @@ function placePlayer(row, column) {
     last_tile_player_was_on = [row, column];
     field[row].splice(column, 1, 5); // Replace given tile with player head
     drawField(field); // Draw the new field with the player head
+}
+
+function validateStart() {
+    const field_side = document.getElementById("field_size").value;
+    const error_div = document.getElementById("error_field");
+
+    if (field_side >= MIN_SIDE_SIZE && field_side <= MAX_SIDE_SIZE) {
+        error_div.innerHTML = ``;
+    }
+    else {
+        error_div.innerHTML = `<p class="text-xl text-center text-red-600 font-bold lili mb-5">A pályaméret nem szabályos!</p>`;
+    }
+
 }
 
 initGame();

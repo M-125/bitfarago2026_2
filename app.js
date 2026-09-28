@@ -147,12 +147,7 @@ document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
-    // Someone pls make a popup for size selection :3
-    event.preventDefault();
-    const formData = new FormData(event.target);
 
-    const size = formData.get("field_size_input");
-    const color = formData.get("character_color");
     startPopup();
 
     let field = initField(size); // Initialize field with given size

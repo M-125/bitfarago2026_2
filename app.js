@@ -1,6 +1,7 @@
 function gameLogic(field) {}
 
-let field = []; // Make the field variable
+let field = []; // Make the field global variable
+let last_tile_player_was_on = [];
 
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
@@ -39,7 +40,7 @@ function initField(size) {
 function initGame() {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
     // Someone pls make a popup for size selection :3
-    size = 10;
+    const size = 10;
     let field = initField(size); // Initialize field with given size
     drawField(field); // Draw the field
     // tile-${i}-${u} is there to help with putting the player on the desired square
@@ -66,7 +67,7 @@ function drawField(field) {
         ) {
             to_draw += [
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">nincs</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u})"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">test(?)</button></div>`,
@@ -81,9 +82,16 @@ function drawField(field) {
 }
 
 function placePlayer(row, column) {
-    console.log(row, column, field[row]);
-    field[row].splice(column, 1, 5);
-    drawField(field);
+    if (last_tile_player_was_on.length > 0) {
+        field[last_tile_player_was_on[0]].splice(
+            last_tile_player_was_on[1],
+            1,
+            0,
+        ); // Make the last tile that the player was on empty
+    }
+    last_tile_player_was_on = [row, column];
+    field[row].splice(column, 1, 5); // Replace given tile with player head
+    drawField(field); // Draw the new field with the player head
 }
 
 function validateStart() {

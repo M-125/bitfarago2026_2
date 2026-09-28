@@ -40,7 +40,7 @@ function initField(size) {
 }
 
 function startPopup() {
-    const popup_div = 
+    const popup_div = "...";
 }
 
 function initGame() {

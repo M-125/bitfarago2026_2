@@ -43,6 +43,32 @@ function initField(size) {
     return field;
 }
 
+function startPopup() {
+    const popup_div = document.getElementById("popup");
+
+    popup_div.innerHTML = `<div class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg">
+            <p class="text-4xl text-center font-bold lili mb-5">Opciók</p>
+            <div class="mb-2">
+                <label for="field_size" class="text-2xl font-bold lili">Pálya hossza [10; 16]: </label>
+                <input type="number" name="field_size" id="field_size" min="10" max="16" class="lili text-lg" value="10">
+            </div>
+            <div>
+                <label for="character_color" class="text-2xl font-bold lili">Karakter színe: </label>
+                <input type="color" name="character_color" id="character_color" value="#3ec15b">
+            </div>
+            <div class="border-2 border-solid w-fit m-auto p-3">
+                <!-- IDE JÖN A PREVIEW -->
+                 g
+            </div>
+            <div id="error_field">
+
+            </div>
+            <div class="justify-center flex mt-4">
+                <button type="button" class="lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid hover" onclick="validateStart()">Start</button>
+            </div>
+        </div>`;
+}
+
 function HexToHSL(hex) {
     // Grabbed from: https://www.jameslmilner.com/posts/converting-rgb-hex-hsl-colors/#hex-to-hsl
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -120,12 +146,14 @@ function watchColorPicker(event) {
 document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
-    // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
+    // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then hands 'field' off to gameLogic()
+    // Someone pls make a popup for size selection :3
     event.preventDefault();
     const formData = new FormData(event.target);
 
-    const size = formData.get("field_size_input"); // Get set size for initialization
-    const color = formData.get("character_color"); // Get set color for correct display of player
+    const size = formData.get("field_size_input");
+    const color = formData.get("character_color");
+    startPopup();
 
     let field = initField(size); // Initialize field with given size
 

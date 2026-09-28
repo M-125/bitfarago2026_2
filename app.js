@@ -1,5 +1,7 @@
 function gameLogic(field) {}
 
+const MAX_SIDE_SIZE = 16;
+const MIN_SIDE_SIZE = 10;
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
 
@@ -175,6 +177,17 @@ function placePlayer(row, column) {
     last_tile_player_was_on = [row, column];
     field[row].splice(column, 1, 5); // Replace given tile with player head
     drawField(field); // Draw the new field with the player head
+}
+
+function validateStart() {
+    const field_side = document.getElementById("field_size").value;
+    const error_div = document.getElementById("error_field");
+
+    if (field_side >= MIN_SIDE_SIZE && field_side <= MAX_SIDE_SIZE) {
+        error_div.innerHTML = ``;
+    } else {
+        error_div.innerHTML = `<p class="text-xl text-center text-red-600 font-bold lili mb-5">A pályaméret nem szabályos!</p>`;
+    }
 }
 
 function validateStart() {

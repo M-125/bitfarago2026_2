@@ -3,11 +3,11 @@ function gameLogic(field) {}
 // GLOBALS START
 
 let field = []; // Make the field global variable
-let last_tile_player_was_on = [];
-const fruit_energy = { apple: 4, grape: 5, pear: 6 };
-let energy = 0;
-let collected = { apple: 0, grape: 0, pear: 0 };
-let dino_color = "#3ec15b";
+let last_tile_player_was_on = []; // Last tile player was placed on, updates on every placePlayer call
+const fruit_energy = { apple: 4, grape: 5, pear: 6 }; // The energy each fruit gives when eaten
+let energy = 0; // Initialize player energy
+let collected = { apple: 0, grape: 0, pear: 0 }; // Collected fruits
+let dino_color = "#3ec15b"; // Primary color of player, defined in initialization popup
 
 // GLOBALS END
 
@@ -139,10 +139,7 @@ function initGame(event) {
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
 
-    //Set starting values--------------------
-    energy = Math.ceil(((size * size) / 5) * 1.2);
-    collected = { apple: 0, grape: 0, pear: 0 };
-    //---------------------------------------
+    energy = Math.ceil(((size * size) / 5) * 1.2); // Set energy based on field size
 
     let field = initField(size); // Initialize field with given size
     drawField(field, color); // Draw the field
@@ -182,9 +179,9 @@ function drawField(field) {
         ) {
             to_draw += [
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')"></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'apple')"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'pear')"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="placePlayer(${i}, ${u}, 'grape')"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'apple'), isGameOver())"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'grape'), isGameOver())"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'pear'), isGameOver())"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">test(?)</button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')"><svg xmlns="http://www.w3.org/2000/svg" class="w-13 h-13" viewBox="0 0 27 27" > <path d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z" style=" fill: #000; stroke: #000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9" style=" fill: ${dino_quaternary}; stroke: ${dino_quaternary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z" style=" fill: ${dino_tetriary}; stroke: ${dino_tetriary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z" style=" fill: ${dino_primary}; stroke: ${dino_primary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M13 3v2h1V3z" style=" fill: #fff; stroke: #fff; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z" style=" fill: #b20000; stroke: #b20000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3" style=" fill: ${dino_secondary}; stroke: ${dino_secondary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z" style=" fill: #ebb328; stroke: #ebb328; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 17v5h1v-5zm1 5v1h1v-1z" style=" fill: #edc36f; stroke: #edc36f; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M9 17v5h1v1h2v-5h-1v-1H9" style=" fill: #ffda89; stroke: #ffda89; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z" style=" fill: #ffed87; stroke: #ffed87; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z" style=" fill: #f4da23; stroke: #f4da23; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> </svg></button></div>`,
             ][field[i][u]]; // Get whatever is supposed to get drawn from the array
@@ -196,51 +193,115 @@ function drawField(field) {
 }
 
 function placePlayer(row, column, fruit) {
-    if (last_tile_player_was_on.length > 0) {
-        energy -=
-            Math.abs(row - last_tile_player_was_on[0]) +
-            Math.abs(column - last_tile_player_was_on[1]);
-        if (energy < 0) {
-            gameOver();
+    if (
+        last_tile_player_was_on.length > 0
+    ) // If the player has been placed already
+    {
+        if (
+            energy -
+                (Math.abs(row - last_tile_player_was_on[0]) +
+                    Math.abs(column - last_tile_player_was_on[1])) >=
+            0
+        ) // If going to the desired tile doesnt result in negative energy
+        {
+            energy -=
+                Math.abs(row - last_tile_player_was_on[0]) +
+                Math.abs(column - last_tile_player_was_on[1]); // Subtract energy needed to travel to desired place
+            field[last_tile_player_was_on[0]].splice(
+                last_tile_player_was_on[1],
+                1,
+                0,
+            ); // Relpace old tile with an empty one
+            collected[fruit] += 1; // Add whichever fruit was collected to the total
+            update_counters(); // Display new values
+            last_tile_player_was_on = [row, column]; // Relpace old value with the current one
+            field[row].splice(column, 1, 5); // Replace given tile with player head
+            drawField(field); // Draw the new field with the player head
         }
-        field[last_tile_player_was_on[0]].splice(
-            last_tile_player_was_on[1],
-            1,
-            0,
-        );
+
+        isGameOver(); // Check if game is over !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
+
         // Make the last tile that the player was on empty
+    } else // If this is the first time the player is placed
+    {
+        collected[fruit] += 1; // Add whichever fruit was collected to the total
+        update_counters();
+        last_tile_player_was_on = [row, column]; // Relpace old value with the current one
+        field[row].splice(column, 1, 5); // Replace given tile with player head
+        drawField(field); // Draw the new field with the player head
     }
-    collected[fruit] += 1;
-    update_counters();
-    last_tile_player_was_on = [row, column];
-    field[row].splice(column, 1, 5); // Replace given tile with p>
-    drawField(field); // Draw the new field with the player head
+    isGameOver(); // Check if game is over !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
+}
+
+function isGameOver() {
+    if (
+        !collected.apple &&
+        !collected.grape &&
+        !collected.pear &&
+        !isAnyFruitNearby()
+    ) // If there are no fruits to be eaten and isAnyFruitNearby returns false
+    {
+        return true; // Replace this with gameover logic
+    }
+    return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
+}
+
+function isAnyFruitNearby() {
+    let fruit_array = []; // Will be filled with coordinates of fruit containing tiles
+    for (const [rowindex, row] of field.entries()) {
+        // Iterate over the field while capturing each index for later usage
+        for (const [columnindex, column] of row.entries()) {
+            // Iterate over the rows while capturing each index for later usage
+            if (
+                4 > column &&
+                column > 0
+            ) // If the current tile is neither empty or contains the player
+            {
+                fruit_array.push([rowindex, columnindex]); // Put that tile into fruit_array
+            }
+        }
+    }
+
+    for (fruits in fruit_array) {
+        // Iterate over the fruit_array to check if any fruit is reachable
+        if (
+            energy -
+                (Math.abs(fruits[0] - last_tile_player_was_on[0]) +
+                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=
+            0
+        ) // If using the placePlayer logic for movement it returns a non-zero value
+        {
+            return true; // Return true to signal there IS a reachable fruit
+        }
+    }
+    return false; // Return false to signal there ISN'T a reachable fruit
 }
 
 function update_counters() {
-    document.getElementById("energy").innerHTML = energy;
+    document.getElementById("energy").innerHTML = energy; // Update energy p tag with current energy
     for (fruit in collected) {
-        document.getElementById(fruit).innerHTML = collected[fruit];
+        // Iterate over the collected fruits
+        document.getElementById(fruit).innerHTML = collected[fruit]; // Update values of collected fruits in each of their respective images
     }
 }
 
 function eatFruit(fruit) {
-    if (collected[fruit] > 0) {
-        collected[fruit] -= 1;
-        energy += fruit_energy[fruit];
-        update_counters();
+    if (collected[fruit] > 0) // If there is one or more fruit to be eaten
+    {
+        collected[fruit] -= 1; // Subtract one off that fruit
+        energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
+        update_counters(); // Update the displayed counters
     }
 }
 
 function gameOver() {
-    initGame(); //TODO: replace with game over popup or something
+    initGame(); // TODO: replace with game over popup or something
 }
 
 function validateStart() {
     if (
-        5 <
-        document.getElementById("field_size_input").getAttribute("value") <
-        17
+        5 < document.getElementById("field_size_input").getAttribute("value") &&
+        document.getElementById("field_size_input").getAttribute("value") < 17
     ) // If the inputted field size doesnt differ from its min or max hide the popup
     {
         document.getElementById("selection_popup").classList.toggle("hidden");

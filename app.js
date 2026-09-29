@@ -4,7 +4,9 @@ function gameLogic(field) {}
 
 let field = []; // Make the field global variable
 let last_tile_player_was_on = [];
-
+const fruit_energy={"apple":4,"grape":5,"pear":6}
+let energy=0
+let collected={"apple":0,"grape":0,"pear":0}
 // GLOBALS END
 
 function initField(size) {
@@ -167,18 +169,26 @@ function drawField(field, color) {
     }
 
     document.getElementById("playArea").innerHTML = to_draw; // Render the elements
-}
 
-function placePlayer(row, column) {
+function placePlayer(row, column,fruit) {
     if (last_tile_player_was_on.length > 0) {
+        energy-= Math.abs(row-last_tile_player_was_on[0])+Math.ab>
+        if (energy<0){
+            gameOver()
+        }
         field[last_tile_player_was_on[0]].splice(
             last_tile_player_was_on[1],
             1,
             0,
         ); // Make the last tile that the player was on empty
     }
+    collected[fruit]+=1
+    document.getElementById("energy").innerHTML=energy
+    for (fruit in collected){
+        document.getElementById(fruit).innerHTML=collected[fruit]
+    }
     last_tile_player_was_on = [row, column];
-    field[row].splice(column, 1, 5); // Replace given tile with player head
+    field[row].splice(column, 1, 5); // Replace given tile with p>
     drawField(field); // Draw the new field with the player head
 }
 

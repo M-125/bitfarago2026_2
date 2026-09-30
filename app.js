@@ -297,13 +297,3 @@ function eatFruit(fruit) {
 function gameOver() {
     initGame(); // TODO: replace with game over popup or something
 }
-
-function validateStart() {
-    if (
-        5 < document.getElementById("field_size_input").getAttribute("value") &&
-        document.getElementById("field_size_input").getAttribute("value") < 17
-    ) // If the inputted field size doesnt differ from its min or max hide the popup
-    {
-        document.getElementById("selection_popup").classList.toggle("hidden");
-    }
-}

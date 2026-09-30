@@ -295,7 +295,8 @@ function eatFruit(fruit) {
 }
 
 function gameOver() {
-    initGame(); // TODO: replace with game over popup or something
+    document.getElementById("playArea").innerHTML=""
+    if (document.getElementById("selection_popup").classList.contains("hidden")) document.getElementById("selection_popup").classList.remove("hidden")
 }
 
 function popup() {

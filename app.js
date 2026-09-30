@@ -135,6 +135,7 @@ function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
     event.preventDefault();
     const formData = new FormData(event.target);
+    popup();
 
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
@@ -300,5 +301,15 @@ function gameOver() {
 }
 
 function popup() {
-    
+    const start_popup = document.getElementById("selection_popup");
+    if (start_popup.classList.contains("invisible")) {
+        document.body.classList.remove("bg-gray-200");
+        document.body.classList.remove("blur-sm");
+    }
+    else {
+        document.body.classList.add("bg-gray-200");
+        document.body.classList.add("blur-sm");
+    }
 }
+
+//popup();

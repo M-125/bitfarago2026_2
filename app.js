@@ -298,13 +298,3 @@ function gameOver() {
     document.getElementById("playArea").innerHTML=""
     if (document.getElementById("selection_popup").classList.contains("hidden")) document.getElementById("selection_popup").classList.remove("hidden")
 }
-
-function validateStart() {
-    if (
-        5 < document.getElementById("field_size_input").getAttribute("value") &&
-        document.getElementById("field_size_input").getAttribute("value") < 17
-    ) // If the inputted field size doesnt differ from its min or max hide the popup
-    {
-        document.getElementById("selection_popup").classList.toggle("hidden");
-    }
-}

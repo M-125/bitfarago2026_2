@@ -113,19 +113,42 @@ function watchColorPicker(event) {
     const dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`; // Get new tetriary color based on default color relations
     const dino_quaternary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.157}%, ${base_color_hsl[2] * 0.52}%)`; // Get new quaternary color based on default color relations
     // Set correct values in displayed svg
-    console.log(dino_primary, dino_secondary, dino_tetriary);
 
-    document.getElementById("dino_primary_color").style.fill = dino_primary;
-    document.getElementById("dino_primary_color").style.stroke = dino_primary;
-    document.getElementById("dino_secondary_color").style.fill = dino_secondary;
-    document.getElementById("dino_secondary_color").style.stroke =
-        dino_secondary;
-    document.getElementById("dino_tetriary_color").style.fill = dino_tetriary;
-    document.getElementById("dino_tetriary_color").style.stroke = dino_tetriary;
-    document.getElementById("dino_quaternary_color").style.fill =
-        dino_quaternary;
-    document.getElementById("dino_quaternary_color").style.stroke =
-        dino_quaternary;
+    let dino_primary_color = document.querySelectorAll(
+        "[id='dino_primary_color']",
+    );
+
+    let dino_secondary_color = document.querySelectorAll(
+        "[id='dino_secondary_color']",
+    );
+
+    let dino_tetriary_color = document.querySelectorAll(
+        "[id='dino_tetriary_color']",
+    );
+
+    let dino_quaternary_color = document.querySelectorAll(
+        "[id='dino_quaternary_color']",
+    );
+
+    for (let i = 0; i < dino_primary_color.length; i++) {
+        dino_primary_color[i].style.fill = dino_primary;
+        dino_primary_color[i].style.stroke = dino_primary;
+    }
+
+    for (let i = 0; i < dino_secondary_color.length; i++) {
+        dino_secondary_color[i].style.fill = dino_secondary;
+        dino_secondary_color[i].style.stroke = dino_secondary;
+    }
+
+    for (let i = 0; i < dino_tetriary_color.length; i++) {
+        dino_tetriary_color[i].style.fill = dino_tetriary;
+        dino_tetriary_color[i].style.stroke = dino_tetriary;
+    }
+
+    for (let i = 0; i < dino_quaternary_color.length; i++) {
+        dino_quaternary_color[i].style.fill = dino_quaternary;
+        dino_quaternary_color[i].style.stroke = dino_quaternary;
+    }
 }
 
 // When start is pressed, initialize the game
@@ -135,6 +158,7 @@ function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
     event.preventDefault();
     const formData = new FormData(event.target);
+    document.getElementById("playArea").classList.toggle("ring-4");
     popup();
 
     const size = formData.get("field_size_input"); // Get set size for initialization
@@ -308,13 +332,14 @@ function gameOver() {
 }
 
 function popup() {
-    const start_popup = document.getElementById("selection_popup");
-    if (start_popup.classList.contains("invisible")) {
-        document.body.classList.remove("bg-gray-200");
-        document.body.classList.remove("blur-sm");
-    } else {
-        document.body.classList.add("bg-gray-200");
-        document.body.classList.add("blur-sm");
+    let popup = document.getElementById("selection_popup");
+    const blurred = document.getElementById("beBlurred");
+    if (!popup.classList.contains("hidden")) {
+        document.getElementById("selection_popup").classList.toggle("hidden");
+        popup = document.getElementById("selection_popup");
+    }
+    if (popup.classList.contains("hidden")) {
+        blurred.classList.remove("blur-sm");
     }
 }
 

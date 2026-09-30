@@ -27,7 +27,7 @@
     </head>
     <body class="bg-blue-200/80">
         <div
-            class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg"
+            class="bg-white blur-none shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg"
             id="selection_popup"
         >
             <form id="initForm">
@@ -237,7 +237,7 @@
                 </button>
             </form>
         </div>
-        <div>
+        <div class="blur-sm" id="beBlurred">
             <div>
                 <header>
                     <h1 class="text-5xl text-center font-bold lili mt-6 mb-5">
@@ -452,7 +452,7 @@
                         </svg>
                     </div>
                 </div>
-                <div id="playArea" class="ring-4 m-auto w-fit"></div>
+                <div id="playArea" class="m-auto w-fit"></div>
             </div>
         </div>
         <script src="app.js"></script>

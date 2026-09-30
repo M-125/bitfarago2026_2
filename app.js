@@ -297,3 +297,7 @@ function eatFruit(fruit) {
 function gameOver() {
     initGame(); // TODO: replace with game over popup or something
 }
+
+function popup() {
+    
+}

@@ -135,6 +135,7 @@ function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
     event.preventDefault();
     const formData = new FormData(event.target);
+    document.getElementById("selection_popup").classList.toggle("hidden");
 
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player

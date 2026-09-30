@@ -10,3 +10,20 @@
 	font-size: 120%;
 	/* font-weight: bold; */
 }
+
+@keyframes sizepulse {
+	from{
+		transform: scale(100%);
+	}
+	50%{
+		transform: scale(150%);
+	}
+	to{
+		transform: scale(100%);
+	}
+}
+
+.animation{
+	animation-name: sizepulse;
+	animation-duration: 0.4s;
+}

@@ -22,7 +22,7 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
-    const gyumi_fraction = 5; // How common is it for a fruit to get placed [1 / gyumi_fraction]
+    const gyumi_fraction = 20; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
@@ -140,10 +140,11 @@ function initGame(event) {
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
 
-    energy = Math.ceil(((size * size) / 5) * 1.2); // Set energy based on field size
+    energy = Math.ceil(((size * size) / 10)); // Set energy based on field size
 
     let field = initField(size); // Initialize field with given size
     drawField(field, color); // Draw the field
+    update_counters()
     // tile-${i}-${u} is there to help with putting the player on the desired square
 }
 
@@ -242,7 +243,7 @@ function isGameOver() {
         !isAnyFruitNearby()
     ) // If there are no fruits to be eaten and isAnyFruitNearby returns false
     {
-        return true; // Replace this with gameover logic
+        gameOver() // Replace this with gameover logic
     }
     return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
@@ -292,6 +293,9 @@ function eatFruit(fruit) {
         collected[fruit] -= 1; // Subtract one off that fruit
         energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
         update_counters(); // Update the displayed counters
+        const butt=document.getElementById(fruit)
+        if(.classList.contains("animation")) document.getElementById(fruit).classList.remove("animation")
+        document.getElementById(fruit).classList.add("animation")
     }
 }
 

@@ -299,3 +299,7 @@ function gameOver() {
     document.getElementById("playArea").innerHTML=""
     if (document.getElementById("selection_popup").classList.contains("hidden")) document.getElementById("selection_popup").classList.remove("hidden")
 }
+
+function popup() {
+    
+}

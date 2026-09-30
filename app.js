@@ -339,6 +339,7 @@ function popup() {
         popup = document.getElementById("selection_popup");
     }
     if (popup.classList.contains("hidden")) {
+        blurred.classList.remove("hidden");
         blurred.classList.remove("blur-sm");
     }
 }

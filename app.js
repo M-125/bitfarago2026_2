@@ -165,11 +165,7 @@ function validateStart() {
 }
 
 function validateStart() {
-    if (
-        5 <
-        document.getElementById("field_size_input").getAttribute("value") <
-        17
-    ) {
+    if (5 < document.getElementById("field_size_input").value < 17) {
         document.getElementById("selection_popup").classList.toggle("hidden");
     }
 }

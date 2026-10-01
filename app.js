@@ -22,7 +22,7 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
-    const gyumi_fraction = 20; // How common is it for a fruit to get placed [1 / gyumi_fraction]
+    const gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
@@ -319,10 +319,10 @@ function eatFruit(fruit) {
         collected[fruit] -= 1; // Subtract one off that fruit
         energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
         update_counters(); // Update the displayed counters
-        const butt = document.getElementById(fruit);
+        const butt = document.getElementById(fruit).parentElement;
         if (butt.classList.contains("animation"))
-            document.getElementById(fruit).classList.remove("animation");
-        document.getElementById(fruit).classList.add("animation");
+            butt.classList.remove("animation");
+        setTimeout(()=>butt.classList.add("animation"),30)
     }
 }
 

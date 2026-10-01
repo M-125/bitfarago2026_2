@@ -153,6 +153,7 @@ function watchColorPicker(event) {
 
 // When start is pressed, initialize the game
 document.getElementById("initForm").addEventListener("submit", initGame);
+// document.getElementById("restart_button").addEventListener("click", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField

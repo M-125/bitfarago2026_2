@@ -165,6 +165,7 @@ function initGame(event) {
     const color = formData.get("character_color"); // Get set color for correct display of player
 
     energy = Math.ceil((size * size) / 10); // Set energy based on field size
+    collected = { apple: 0, grape: 0, pear: 0 }; // Reset collected fruits
 
     let field = initField(size); // Initialize field with given size
     drawField(field, color); // Draw the field

@@ -153,10 +153,11 @@ function watchColorPicker(event) {
 
 // When start is pressed, initialize the game
 document.getElementById("initForm").addEventListener("submit", initGame);
-// document.getElementById("restart_button").addEventListener("click", initGame);
+document.getElementById("restart_form").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
+    console.log(event,"quack")
     event.preventDefault();
     const formData = new FormData(event.target);
     document.getElementById("playArea").classList.toggle("ring-4");
@@ -164,7 +165,7 @@ function initGame(event) {
 
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
-
+    console.log(size,color)
     energy = Math.ceil((size * size) / 10); // Set energy based on field size
     collected = { apple: 0, grape: 0, pear: 0 }; // Reset collected fruits
 

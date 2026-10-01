@@ -332,6 +332,7 @@ function gameOver() {
     document.getElementById("playArea").innerHTML = "";
     if (document.getElementById("selection_popup").classList.contains("hidden"))
         document.getElementById("selection_popup").classList.remove("hidden");
+    display_scores();
 }
 
 function popup() {
@@ -345,6 +346,67 @@ function popup() {
         blurred.classList.remove("hidden");
         blurred.classList.remove("blur-sm");
     }
+}
+
+function toggle_total_score(button) {
+    const score_div = document.getElementById("score_div");
+
+    if (score_div.classList.contains("h-12")) {
+        score_div.classList.remove("h-12");
+        score_div.classList.add("h-45");
+
+        button.classList.add("rotate-90");
+    }
+    else {
+        score_div.classList.add("h-12");
+        score_div.classList.remove("h-45");
+
+        button.classList.remove("rotate-90");
+    }
+}
+
+// calculates and displays the total and the sub-scores
+function display_scores() {
+    const score_div = document.getElementById("score_div");
+
+    const APPLE_SCORE = collected["apple"] * 2;
+    const GRAPE_SCORE = collected["grape"] * 3;
+    const PEAR_SCORE = collected["pear"] * (collected["pear"] + 1) / 2
+    const APPLE_GRAPE_PAIR_SCORE = ((collected["apple"] < collected["grape"]) ? collected["apple"] * 2 : collected["grape"] * 2)
+
+    const TOTAL_SCORE = APPLE_SCORE + GRAPE_SCORE + PEAR_SCORE + APPLE_GRAPE_PAIR_SCORE;
+    console.log(APPLE_SCORE, GRAPE_SCORE, PEAR_SCORE, APPLE_GRAPE_PAIR_SCORE, TOTAL_SCORE)
+
+    score_div.innerHTML = `<label for="total_score" class="lili text-xl">Összes pontszám:</label>
+                    <div onclick="toggle_total_score(this)" class="bg-black shadow-black shadow-md w-fit rounded-lg border-black border-solid border-2 float-right px-1.5 ml-2 text-white text-bold cursor-pointer hover:bg-white hover:outline-black hover:outline-solid hover:outline-2 hover:text-black ease-in-out duration-300">
+                        <p class="lili text-13 px-1">></p>
+                    </div>
+                    <div class="float-right">
+                        <p class="lili text-xl">${TOTAL_SCORE} pt</p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 w-100 mt-3">
+                        <div>
+                            <img src="./assets/apple.svg" class="w-6 mb-1">
+                            <img src="./assets/grape.svg" class="w-6 mb-1">
+                            <img src="./assets/pear.svg" class="w-6 mb-1">
+                            <div class="flex gap-2">
+                                <img src="./assets/apple.svg" class="w-6 mb-1">
+                                <img src="./assets/pear.svg" class="w-6 mb-1">
+                            </div>
+                        </div>
+                        <div>
+                            <p class="lili text-lg mb-1">${collected["apple"]} db</p>
+                            <p class="lili text-lg mb-1">${collected["grape"]} db</p>
+                            <p class="lili text-lg mb-1">${collected["pear"]} db</p>
+                            <p class="lili text-lg mb-1">${((collected["apple"] < collected["grape"]) ? collected["apple"] : collected["grape"])} db</p>
+                        </div>
+                        <div>
+                            <p class="lili text-lg mb-1">${APPLE_SCORE} pt</p>
+                            <p class="lili text-lg mb-1">${GRAPE_SCORE} pt</p>
+                            <p class="lili text-lg mb-1">${PEAR_SCORE} pt</p>
+                            <p class="lili text-lg mb-1">${APPLE_GRAPE_PAIR_SCORE} pt</p>
+                        </div>
+                    </div>`;
 }
 
 //popup();

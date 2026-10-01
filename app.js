@@ -295,7 +295,7 @@ function isAnyFruitNearby() {
         if (
             energy -
                 (Math.abs(fruits[0] - last_tile_player_was_on[0]) +
-                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=
+                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=//This hurt my eyes :c
             0
         ) // If using the placePlayer logic for movement it returns a non-zero value
         {
@@ -319,10 +319,10 @@ function eatFruit(fruit) {
         collected[fruit] -= 1; // Subtract one off that fruit
         energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
         update_counters(); // Update the displayed counters
-        const butt = document.getElementById(fruit).parentElement;
+        const butt = document.getElementById(fruit).parentElement;//a BUTT
         if (butt.classList.contains("animation"))
-            butt.classList.remove("animation");
-        setTimeout(()=>butt.classList.add("animation"),30)
+            butt.classList.remove("animation");//remove animation so it can be played again (i bet theres a better way but me acting dumb)
+        setTimeout(()=>butt.classList.add("animation"),30)//Play animation
     }
 }
 

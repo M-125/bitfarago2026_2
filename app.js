@@ -365,9 +365,11 @@ function toggle_total_score(button) {
     }
 }
 
-// calculates and displays the total and the sub-scores
+// calculates and displays the total and the sub-scores with the game-over panel
 function display_scores() {
     const score_div = document.getElementById("score_div");
+    const game_over_div = document.getElementById("game_over");
+    game_over_div.classList.remove("hidden")
 
     const APPLE_SCORE = collected["apple"] * 2;
     const GRAPE_SCORE = collected["grape"] * 3;
@@ -391,7 +393,7 @@ function display_scores() {
                             <img src="./assets/pear.svg" class="w-6 mb-1">
                             <div class="flex gap-2">
                                 <img src="./assets/apple.svg" class="w-6 mb-1">
-                                <img src="./assets/pear.svg" class="w-6 mb-1">
+                                <img src="./assets/grape.svg" class="w-6 mb-1">
                             </div>
                         </div>
                         <div>

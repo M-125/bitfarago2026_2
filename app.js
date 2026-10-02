@@ -8,6 +8,9 @@ const fruit_energy = { apple: 4, grape: 5, pear: 6 }; // The energy each fruit g
 let energy = 0; // Initialize player energy
 let collected = { apple: 0, grape: 0, pear: 0 }; // Collected fruits
 let dino_color = "#3ec15b"; // Primary color of player, defined in initialization popup
+let on_field_fruits_count = 0;
+let energy_multiplier = 0.1;
+let gyumi_fraction = 29; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 
 // GLOBALS END
 
@@ -22,7 +25,6 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
-    const gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
@@ -36,6 +38,7 @@ function initField(size) {
             ) {
                 // If true it generates a random number between 1 and 3 to represent the fruits
                 field[i][u] = Math.floor(Math.random() * 3) + 1;
+                on_field_fruits_count += 1;
             } else {
                 // If false it fills it with a 0 to represent an empty space
                 field[i][u] = 0;
@@ -153,7 +156,6 @@ function watchColorPicker(event) {
 
 // When start is pressed, initialize the game
 document.getElementById("initForm").addEventListener("submit", initGame);
-document.getElementById("restart_form").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
@@ -165,8 +167,8 @@ function initGame(event) {
 
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
-    console.log(size,color)
-    energy = Math.ceil((size * size) / 10); // Set energy based on field size
+    console.log(size,color);
+    energy = Math.ceil((size * size) / 10 * energy_multiplier); // Set energy based on field size
     collected = { apple: 0, grape: 0, pear: 0 }; // Reset collected fruits
     last_tile_player_was_on = []
     let field = initField(size); // Initialize field with given size
@@ -247,6 +249,7 @@ function placePlayer(row, column, fruit) {
             last_tile_player_was_on = [row, column]; // Relpace old value with the current one
             field[row].splice(column, 1, 5); // Replace given tile with player head
             drawField(field); // Draw the new field with the player head
+            on_field_fruits_count -= 1;
         }
 
         isGameOver(); // Check if game is over !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
@@ -254,6 +257,7 @@ function placePlayer(row, column, fruit) {
         // Make the last tile that the player was on empty
     } else // If this is the first time the player is placed
     {
+        on_field_fruits_count -= 1;
         collected[fruit] += 1; // Add whichever fruit was collected to the total
         update_counters();
         last_tile_player_was_on = [row, column]; // Relpace old value with the current one
@@ -265,15 +269,13 @@ function placePlayer(row, column, fruit) {
 
 function isGameOver() {
     if (
-        !collected.apple &&
-        !collected.grape &&
-        !collected.pear &&
+        on_field_fruits_count == 0 &&
         !isAnyFruitNearby()
     ) // If there are no fruits to be eaten and isAnyFruitNearby returns false
     {
         gameOver(); // Replace this with gameover logic
     }
-    return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
+    //return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
 
 function isAnyFruitNearby() {
@@ -297,7 +299,7 @@ function isAnyFruitNearby() {
         if (
             energy -
                 (Math.abs(fruits[0] - last_tile_player_was_on[0]) +
-                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=//This hurt my eyes :c
+                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=//This hurts my eyes :c
             0
         ) // If using the placePlayer logic for movement it returns a non-zero value
         {
@@ -332,7 +334,7 @@ function gameOver() {
     document.getElementById("playArea").innerHTML = "";
     display_scores();
     document.getElementById("playArea").classList.remove("ring-4");
-    init_score_div()
+    init_score_div();
 }
 
 function select_popup(){
@@ -391,7 +393,6 @@ function display_scores() {
     const APPLE_GRAPE_PAIR_SCORE = ((collected["apple"] < collected["grape"]) ? collected["apple"] * 2 : collected["grape"] * 2)
 
     const TOTAL_SCORE = APPLE_SCORE + GRAPE_SCORE + PEAR_SCORE + APPLE_GRAPE_PAIR_SCORE;
-    console.log(APPLE_SCORE, GRAPE_SCORE, PEAR_SCORE, APPLE_GRAPE_PAIR_SCORE, TOTAL_SCORE)
 
     score_div.innerHTML = `<label for="total_score" class="lili text-xl">Összes pontszám:</label>
                     <div onclick="toggle_total_score(this)" class="bg-black shadow-black shadow-md w-fit rounded-lg border-black border-solid border-2 float-right px-1.5 ml-2 text-white text-bold cursor-pointer hover:bg-white hover:outline-black hover:outline-solid hover:outline-2 hover:text-black ease-in-out duration-300">
@@ -423,6 +424,55 @@ function display_scores() {
                             <p class="lili text-lg mb-1">${APPLE_GRAPE_PAIR_SCORE} pt</p>
                         </div>
                     </div>`;
+}
+
+function set_difficulty(button) {
+    const easy_button = document.getElementById("dif_easy");
+    const mid_button = document.getElementById("dif_mid");
+    const hard_button = document.getElementById("dif_hard");
+
+    if (button == easy_button) {
+        gyumi_fraction = 15;
+        energy_multiplier = 1;
+
+
+        button.classList.add("bg-green-600", "text-white", "border-black");
+        button.classList.remove("border-green-600");
+
+        mid_button.classList.remove("bg-amber-600", "text-white", "border-black");
+        mid_button.classList.add("border-amber-600");
+
+        hard_button.classList.remove("bg-red-600", "text-white", "border-black");
+        hard_button.classList.add("border-red-600");
+    }
+    else if (button.id == "dif_mid") {
+        gyumi_fraction = 20;
+        energy_multiplier = 0.7;
+
+        
+        easy_button.classList.remove("bg-green-600", "text-white", "border-black");
+        easy_button.classList.add("border-green-600");
+
+        button.classList.add("bg-amber-600", "text-white", "border-black");
+        button.classList.remove("border-amber-600");
+
+        hard_button.classList.remove("bg-red-600", "text-white", "border-black");
+        hard_button.classList.add("border-red-600");
+    }
+    else {
+        gyumi_fraction = 25;
+        energy_multiplier = 0.5;
+
+
+        easy_button.classList.remove("bg-green-600", "text-white", "border-black");
+        easy_button.classList.add("border-green-600");
+
+        mid_button.classList.remove("bg-amber-600", "text-white", "border-black");
+        mid_button.classList.add("border-amber-600");
+
+        button.classList.add("bg-red-600", "text-white", "border-black");
+        button.classList.remove("border-red-600");
+    }
 }
 
 //popup();

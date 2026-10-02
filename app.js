@@ -160,7 +160,7 @@ function initGame(event) {
     console.log(event,"quack")
     event.preventDefault();
     const formData = new FormData(event.target);
-    document.getElementById("playArea").classList.toggle("ring-4");
+    document.getElementById("playArea").classList.add("ring-4");
     popup();
 
     const size = formData.get("field_size_input"); // Get set size for initialization
@@ -168,7 +168,7 @@ function initGame(event) {
     console.log(size,color)
     energy = Math.ceil((size * size) / 10); // Set energy based on field size
     collected = { apple: 0, grape: 0, pear: 0 }; // Reset collected fruits
-
+    last_tile_player_was_on = []
     let field = initField(size); // Initialize field with given size
     drawField(field, color); // Draw the field
     update_counters();
@@ -330,9 +330,15 @@ function eatFruit(fruit) {
 
 function gameOver() {
     document.getElementById("playArea").innerHTML = "";
-    if (document.getElementById("selection_popup").classList.contains("hidden"))
-        document.getElementById("selection_popup").classList.remove("hidden");
     display_scores();
+    document.getElementById("playArea").classList.remove("ring-4");
+    init_score_div()
+}
+
+function select_popup(){
+    document.getElementById("selection_popup").classList.remove("hidden");
+    document.getElementById("game_over").classList.add("hidden")
+    
 }
 
 function popup() {
@@ -346,6 +352,14 @@ function popup() {
         blurred.classList.remove("hidden");
         blurred.classList.remove("blur-sm");
     }
+}
+
+function init_score_div(){
+    const score_div = document.getElementById("score_div");
+    score_div.classList.add("h-12");
+    score_div.classList.remove("h-45");
+
+    // button.classList.remove("rotate-90");
 }
 
 function toggle_total_score(button) {

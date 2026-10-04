@@ -9,9 +9,10 @@ let energy = 0; // Initialize player energy
 let collected = { apple: 0, grape: 0, pear: 0 }; // Collected fruits
 let dino_color = "#3ec15b"; // Primary color of player, defined in initialization popup
 let on_field_fruits_count = 0;
-let energy_multiplier = 0.1;
-let gyumi_fraction = 29; // How common is it for a fruit to get placed [1 / gyumi_fraction]
+let energy_multiplier = 1;
+let gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 let numberOfRestarts = 0; // How many times has the player restarted
+let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
 
 // GLOBALS END
 
@@ -256,6 +257,9 @@ function placePlayer(row, column, fruit) {
             field[row].splice(column, 1, 5); // Replace given tile with player head
             drawField(field); // Draw the new field with the player head
             on_field_fruits_count -= 1;
+            if(on_field_fruits_count == 0) {
+                is_game_stopped_manually = false;
+            }
         }
 
         isGameOver(); // Check if game is over !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
@@ -282,7 +286,7 @@ function isGameOver() {
         sleep(1500).then(() => { gameOver(); });
         // Replace this with gameover logic
     }
-    //return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
+    return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
 
 function isAnyFruitNearby() {
@@ -343,10 +347,18 @@ function gameOver() {
     document.getElementById("playArea").classList.remove("ring-4");
     init_score_div();
     numberOfRestarts += 1;
+
+    if(on_field_fruits_count != 0) {
+        is_game_stopped_manually = true;
+    }
+    else {
+        is_game_stopped_manually = false;
+    }
 }
 
 function select_popup() {
     confetti();
+    on_field_fruits_count = 0;
     document.getElementById("selection_popup").classList.remove("hidden");
     document.getElementById("game_over").classList.add("hidden");
 }
@@ -584,7 +596,7 @@ async function typewriterAnimation(text) {
 function confetti() {
     const conf_div = document.getElementById("confetti_placeholder");
 
-    if (conf_div.innerHTML == ``) {
+    if (conf_div.innerHTML == `` & !is_game_stopped_manually) {
         conf_div.innerHTML = `<div class="confetti_div">
             <div class="confetti"></div>
             <div class="confetti"></div>

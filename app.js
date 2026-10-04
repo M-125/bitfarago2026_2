@@ -525,7 +525,7 @@ async function dinoWelcomeSpeech() {
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation("Kérsz egy rövid bemutatót a játékról?");
         document.getElementById("playerTalk").innerHTML =
-            'Kérsz egy rövid bemutatót a játékról? <br> <div class=""><button onClick="gameInstructionSpeech(true)">Igen!</button><button onClick="gameInstructionSpeech(false)">Nem!</button></div>';
+            'Kérsz egy rövid bemutatót a játékról? <br> <div class=""><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
     }
 }
 
@@ -535,33 +535,33 @@ async function gameInstructionSpeech(isAccepted) {
             "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",
         );
         await new Promise((r) => setTimeout(r, 500));
-        await typewriterAnimation("Háromféle gyümölcs van; Alma, Szőlő, Körte");
+        await typewriterAnimation("Háromféle gyümölcs van: Alma, Szőlő, Körte.");
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation(
-            "Mindig amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",
+            "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",
         );
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation(
-            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, ha megetetsz finom gyümikkel.",
+            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, hogy megetetsz finom gyümikkel.",
         );
         await new Promise((r) => setTimeout(r, 750));
         await typewriterAnimation(
-            "Csak kattints a kívánt gyümire és el fogom majszolni!",
+            "Csak kattints a kívánt gyümire, és el fogom majszolni!",
         );
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation(
-            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod mennyi pontot értél el!",
+            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod, mennyi pontot értél el!",
         );
         await new Promise((r) => setTimeout(r, 750));
         await typewriterAnimation("Minden gyümi ami nálad van pontokat ér");
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation(
-            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek",
+            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek.",
         );
         await new Promise((r) => setTimeout(r, 1000));
         await typewriterAnimation("Elmondjam újra?");
         document.getElementById("playerTalk").innerHTML =
-            'Elmondjam újra? <br> <div class=""><button onClick="gameInstructionSpeech(true)">Igen!</button><button onClick="gameInstructionSpeech(false)">Nem!</button></div>';
+            'Elmondjam újra? <br> <div class=""><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
     } else {
         await typewriterAnimation("Rendben. Jó játékot!");
     }

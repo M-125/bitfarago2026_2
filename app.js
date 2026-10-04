@@ -13,6 +13,8 @@ let energy_multiplier = 1;
 let gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 let numberOfRestarts = 0; // How many times has the player restarted
 let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
+const background_music = new Audio("./assets/background_music.mp3");
+
 
 // GLOBALS END
 

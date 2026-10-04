@@ -68,3 +68,66 @@
 	animation-duration: 0.1s;
 	animation-iteration-count: infinite;
 }
+
+
+
+/* from: https://purecss.com/examples/confetti/ */
+
+.cannon-stage {
+  --cn-x: 50%;
+  --cn-dir: 1;
+}
+
+.cannon-piece {
+  position: absolute;
+  left: var(--cn-x);
+  bottom: 16px;
+  opacity: 0;
+  animation: confetti-cannon 1.6s linear 1 forwards;
+  animation-name: none;
+}
+
+/* CSS cannot restart an animation on demand. Two names for the same
+   motion is the way around it: each click checks the other radio, the
+   animation-name changes, and a changed name starts from zero. */
+.cannon-stage .cannon-piece {
+  animation-name: confetti-cannon;
+}
+
+.cannon-stage .cannon-piece {
+  animation-name: confetti-cannon-again;
+}
+
+/* fired from the middle, half the pieces go each way */
+.cannon-stage .cannon-piece:nth-child(even) {
+  --cn-dir: -1;
+}
+
+/* one block for every piece and every direction. The horizontal term
+   is multiplied by --cn-dir, so flipping that one number mirrors the
+   whole shot. Every stop is a calc against the same variables,
+   including the zeroes: a plain length and an unresolved calc do not
+   reliably interpolate against each other. */
+@keyframes confetti-cannon {
+  0%   { transform: translate(calc(var(--dx) * 0 * var(--cn-dir)), calc(var(--peak) * 0)) rotate(0deg) scale(.35); opacity: 0; }
+  8%   { transform: translate(calc(var(--dx) * .12 * var(--cn-dir)), calc(var(--peak) * -.42)) rotate(60deg) scale(1); opacity: 1; }
+  45%  { transform: translate(calc(var(--dx) * .55 * var(--cn-dir)), calc(var(--peak) * -1)) rotate(300deg) scale(1); }
+  65%  { transform: translate(calc(var(--dx) * .75 * var(--cn-dir)), calc(var(--peak) * -.82)) rotate(420deg) scale(1); opacity: 1; }
+  100% { transform: translate(calc(var(--dx) * 1 * var(--cn-dir)), calc(var(--peak) * .55)) rotate(620deg) scale(1); opacity: 0; }
+}
+
+/* identical to the block above apart from the name. That is the whole
+   trick: a changed animation-name restarts the animation, and nothing
+   else in CSS will. */
+@keyframes confetti-cannon-again {
+  0%   { transform: translate(calc(var(--dx) * 0 * var(--cn-dir)), calc(var(--peak) * 0)) rotate(0deg) scale(.35); opacity: 0; }
+  8%   { transform: translate(calc(var(--dx) * .12 * var(--cn-dir)), calc(var(--peak) * -.42)) rotate(60deg) scale(1); opacity: 1; }
+  45%  { transform: translate(calc(var(--dx) * .55 * var(--cn-dir)), calc(var(--peak) * -1)) rotate(300deg) scale(1); }
+  65%  { transform: translate(calc(var(--dx) * .75 * var(--cn-dir)), calc(var(--peak) * -.82)) rotate(420deg) scale(1); opacity: 1; }
+  100% { transform: translate(calc(var(--dx) * 1 * var(--cn-dir)), calc(var(--peak) * .55)) rotate(620deg) scale(1); opacity: 0; }
+}
+
+/* angle and power per piece, shared by all three directions */
+.cannon-piece:nth-child(1) { --dx: 386px; --peak: 35px; background: #c084fc; }
+.cannon-piece:nth-child(2) { --dx: 422px; --peak: 46px; background: #ffd444; }
+/* sixteen more, spreading from a flat shot to a steep one */

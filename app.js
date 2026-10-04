@@ -14,6 +14,10 @@ let gyumi_fraction = 29; // How common is it for a fruit to get placed [1 / gyum
 
 // GLOBALS END
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
     // Field is the playing area defined by the user. 0-0 Is the upper left corner.
@@ -269,11 +273,11 @@ function placePlayer(row, column, fruit) {
 
 function isGameOver() {
     if (
-        on_field_fruits_count == 0 &&
-        !isAnyFruitNearby()
-    ) // If there are no fruits to be eaten and isAnyFruitNearby returns false
+        on_field_fruits_count == 0
+    ) // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
     {
-        gameOver(); // Replace this with gameover logic
+        sleep(1000).then(() => { gameOver(); });
+        // Replace this with gameover logic
     }
     //return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
@@ -473,6 +477,10 @@ function set_difficulty(button) {
         button.classList.add("bg-red-600", "text-white", "border-black");
         button.classList.remove("border-red-600");
     }
+}
+
+function confetti() {
+
 }
 
 //popup();

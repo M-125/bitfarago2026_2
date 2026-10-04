@@ -16,6 +16,7 @@
             href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap"
             rel="stylesheet"
         />
+        <link href="https://fonts.googleapis.com/css2?family=Ranchers&family=Rubik+Bubbles&display=swap" rel="stylesheet">
         <link
             href="tailwindstyle.css"
             rel="stylesheet"
@@ -30,26 +31,7 @@
         <title>Kerti Pincék - Gyümimajszoló</title>
     </head>
     <body class="bg-blue-200/80">
-        <div id="confetti_div" class="absolute top-50 left-1/2 -translate-x-1/2 h-100 w-200 confetti-stage cannon-stage" aria-hidden="true">
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-            <div class="cannon-piece"></div>
-        </div>
+        <span class="hidden rubik">to aviod lag when showing the welcome text its required to write ő and ű as the page initializes so it can be downloaded from google</span>
         <div id="game_over" class="hidden bg-white shadow-black shadow-md w-100 fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg border-black border-solid border-2">
             <div class="border-b-2 border-b-solid mb-0 p-0">
                 <p class="text-4xl text-center font-bold lili mb-5 text-shadow-md">Játék vége</p>
@@ -61,6 +43,7 @@
                     <button type="submit" onclick="select_popup()" id="restart_button" class="justify-center m-auto flex mt-4 lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid hover">Újrainidítás</button>
                 </div>
         </div>
+        
         <div
             class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg text-pretty"
             id="selection_popup"
@@ -285,56 +268,18 @@
         <div class="blur-sm hidden" id="beBlurred">
             <div>
                 <header>
-                    <h1 class="text-5xl text-center font-bold lili mt-6 mb-5">
-                        Gyümimajszoló
-                    </h1>
-                </header>
-                <div class="float-right">
-                    <div class="flex gap-3 bg-blue-800 rounded-md text-white p-2 my-3 border-2 border-black">
-                        <p class="lili text-lg">Energia:</p>
-                        <p id="energy" class="lili text-lg"></p>
-                    </div>
-                    <button
-                        onclick="eatFruit('apple')"
-                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
-                    >
-                        <img class="h-15" src="assets/apple.svg" />
-                        <p id="apple" class="corner lili">X</p>
-                    </button>
-                    <button
-                        onclick="eatFruit('grape')"
-                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
-                    >
-                        <img class="h-15" src="assets/grape.svg" />
-                        <p id="grape" class="corner lili">X</p>
-                    </button>
-                    <button
-                        onclick="eatFruit('pear')"
-                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
-                    >
-                        <img class="h-15" src="assets/pear.svg" />
-                        <p id="pear" class="corner lili">X</p>
-                    </button>
-                    <div class="flex justify-center">
-                        <button
-                            onclick="gameOver()"
-                            class="mt-4 lili bg-red-500 text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-red-600 ease-in-out duration-300 hover:outline-2 hover:outline-solid outline-red-500 hover"
-                        >
-                            Játék leállítása
-                        </button>
-                    </div>
-                </div>
-                <div class="m-auto relative float-left max-w-1/3 text-pretty">
+                    <div class="m-auto max-w-2/3 w-fit text-pretty flex mb-5 items-start">
                     <!-- <div class="m-auto w-fit float-start"> !-->
 
-                    <!-- <div
-                            class="bg-white rounded-3xl p-1.5 w-fit h-fit relative top-4 mx-1"
-                        ></div> !-->
+                    
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="w-15 h-15 m-auto"
+                        class="w-15 h-15 -scale-x-100"
                         viewBox="0 0 27 27"
+                        id="dinoSpeechSVG"
+                        
                     >
+                    <g>
                         <path
                             d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z"
                             style="
@@ -494,14 +439,54 @@
                                 stroke-linejoin: miter;
                                 paint-order: stroke fill markers;
                             "
-                        />
+                        /></g>
                     </svg>
                     <div
-                        class="bg-white shadow-xl w-fit h-fit rounded-xl p-2 m-auto relative"
+                            class="bg-white rounded-3xl p-1.5 w-fit h-fit relative top-4 mx-1"
+                        ></div>
+                    <div
+                        class="bg-white shadow-xl w-fit h-fit rounded-xl p-2 m-aut"
                     >
-                        <p id="playerTalk">Szia faszos nagyon sok szoveg megtobb szoveg mondd hogy warappelsz legyszi wrappelj kerlek</p>
+                        <p id="playerTalk" class="rubik">Szia faszos nagyon sok szoveg megtobb szoveg mondd hogy warappelsz legyszi wrappelj kerlek</p>
                     </div>
+                    
                 </div>
+                </header>
+                <div class="float-right">
+                    <div class="flex gap-3 bg-blue-800 rounded-md text-white p-2 my-3 border-2 border-black">
+                        <p class="lili text-lg">Energia:</p>
+                        <p id="energy" class="lili text-lg"></p>
+                    </div>
+                    <button
+                        onclick="eatFruit('apple')"
+                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
+                    >
+                        <img class="h-15" src="assets/apple.svg" />
+                        <p id="apple" class="corner lili">X</p>
+                    </button>
+                    <button
+                        onclick="eatFruit('grape')"
+                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
+                    >
+                        <img class="h-15" src="assets/grape.svg" />
+                        <p id="grape" class="corner lili">X</p>
+                    </button>
+                    <button
+                        onclick="eatFruit('pear')"
+                        class="w-15 h-15 cursor-pointer ease-in-out duration-100 hover:opacity-70"
+                    >
+                        <img class="h-15" src="assets/pear.svg" />
+                        <p id="pear" class="corner lili">X</p>
+                    </button>
+                    <div class="flex justify-center">
+                        <button
+                            onclick="gameOver()"
+                            class="mt-4 lili bg-red-500 text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-red-600 ease-in-out duration-300 hover:outline-2 hover:outline-solid outline-red-500 hover"
+                        >
+                            Játék leállítása
+                        </button>
+                    </div>
+                </div>                
             </div>
             <div id="playArea" class="m-auto w-fit overflow-x-hidden"></div>
             </div>

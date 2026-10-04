@@ -278,7 +278,8 @@ function isGameOver() {
         on_field_fruits_count == 0
     ) // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
     {
-        sleep(1000).then(() => { gameOver(); });
+        confetti();
+        sleep(1500).then(() => { gameOver(); });
         // Replace this with gameover logic
     }
     //return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
@@ -345,6 +346,7 @@ function gameOver() {
 }
 
 function select_popup() {
+    confetti();
     document.getElementById("selection_popup").classList.remove("hidden");
     document.getElementById("game_over").classList.add("hidden");
 }
@@ -577,4 +579,60 @@ async function typewriterAnimation(text) {
     }
     document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
     document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
+}
+
+function confetti() {
+    const conf_div = document.getElementById("confetti_placeholder");
+
+    if (conf_div.innerHTML == ``) {
+        conf_div.innerHTML = `<div class="confetti_div">
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+            <div class="confetti"></div>
+
+            </div>`;
+    }
+    else {
+        conf_div.innerHTML = ``;
+    }
 }

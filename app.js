@@ -288,12 +288,12 @@ async function isGameOver() {
     return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
 
-function fruitEnergy(){
-    let sum=0
-    for (fruit in collected){
-        sum+=collected[fruit]*fruit_energy[fruit]
+function fruitEnergy() {
+    let sum = 0;
+    for (fruit in collected) {
+        sum += collected[fruit] * fruit_energy[fruit];
     }
-    return sum
+    return sum;
 }
 
 function isAnyFruitNearby() {
@@ -317,7 +317,11 @@ function isAnyFruitNearby() {
         // Iterate over the fruit_array to check if any fruit is reachable
 
         if (
-            energy + fruitEnergy() - (Math.abs(fruits[0] - last_tile_player_was_on[0]) + Math.abs(fruits[1] - last_tile_player_was_on[1])) >=0
+            energy +
+                fruitEnergy() -
+                (Math.abs(fruits[0] - last_tile_player_was_on[0]) +
+                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >=
+            0
         ) // If using the placePlayer logic for movement it returns a non-zero value
         {
             return true; // Return true to signal there IS a reachable fruit
@@ -353,7 +357,7 @@ function gameOver() {
     document.getElementById("playArea").classList.remove("ring-4");
     init_score_div();
     numberOfRestarts += 1;
-    hide_ui()
+    hide_ui();
     if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
     } else {
@@ -381,9 +385,9 @@ function popup() {
     }
 }
 
-function hide_ui(){
+function hide_ui() {
     const blurred = document.getElementById("beBlurred");
-    blurred.classList.add("hidden")
+    blurred.classList.add("hidden");
 }
 
 function init_score_div() {
@@ -661,4 +665,4 @@ function confetti() {
 }
 
 // TODO:
-// Block manual game over when start popup is up
+// Make dino color getter when pagge is refreshed

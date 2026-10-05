@@ -353,7 +353,7 @@ function gameOver() {
     document.getElementById("playArea").classList.remove("ring-4");
     init_score_div();
     numberOfRestarts += 1;
-
+    hide_ui()
     if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
     } else {
@@ -379,6 +379,11 @@ function popup() {
         blurred.classList.remove("hidden");
         blurred.classList.remove("blur-sm");
     }
+}
+
+function hide_ui(){
+    const blurred = document.getElementById("beBlurred");
+    blurred.classList.add("hidden")
 }
 
 function init_score_div() {

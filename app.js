@@ -288,6 +288,14 @@ async function isGameOver() {
     return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
 
+function fruitEnergy(){
+    let sum=0
+    for (fruit in collected){
+        sum+=collected[fruit]*fruit_energy[fruit]
+    }
+    return sum
+}
+
 function isAnyFruitNearby() {
     let fruit_array = []; // Will be filled with coordinates of fruit containing tiles
     for (const [rowindex, row] of field.entries()) {
@@ -307,10 +315,7 @@ function isAnyFruitNearby() {
     for (fruits in fruit_array) {
         // Iterate over the fruit_array to check if any fruit is reachable
         if (
-            energy -
-                (Math.abs(fruits[0] - last_tile_player_was_on[0]) +
-                    Math.abs(fruits[1] - last_tile_player_was_on[1])) >= //This hurts my eyes :c
-            0
+            energy + fruitEnergy() - (Math.abs(fruits[0] - last_tile_player_was_on[0]) + Math.abs(fruits[1] - last_tile_player_was_on[1])) >=0
         ) // If using the placePlayer logic for movement it returns a non-zero value
         {
             return true; // Return true to signal there IS a reachable fruit

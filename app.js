@@ -113,7 +113,6 @@ function watchColorPicker(event) {
     // Quaternary = 133, 59, 26   relative to primary = 1, 1.157, 0.52
     dino_color = event.target.value;
     const base_color_hsl = HexToHSL(dino_color); // Get selected value from picker in hex, convert it to hsl with HexToHSL function, this will be the new primary color. Stored as a list eg. [133, 55, 47]
-    console.log(base_color_hsl);
     const dino_primary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1]}%, ${base_color_hsl[2]}%)`; // The biggest part
     const dino_secondary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.078}%, ${base_color_hsl[2] * 0.74}%)`; // Get new secondary color based on default color relations
     const dino_tetriary = `hsl(${base_color_hsl[0]}, ${base_color_hsl[1] * 1.235}%, ${base_color_hsl[2] * 1.24}%)`; // Get new tetriary color based on default color relations
@@ -162,7 +161,6 @@ document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
-    console.log(event, "quack");
     event.preventDefault();
     const formData = new FormData(event.target);
     document.getElementById("playArea").classList.add("ring-4");
@@ -170,7 +168,6 @@ function initGame(event) {
 
     const size = formData.get("field_size_input"); // Get set size for initialization
     const color = formData.get("character_color"); // Get set color for correct display of player
-    console.log(size, color);
     energy = Math.ceil(((size * size) / 10) * energy_multiplier); // Set energy based on field size
     collected = { apple: 0, grape: 0, pear: 0 }; // Reset collected fruits
     last_tile_player_was_on = [];
@@ -218,8 +215,8 @@ function drawField(field) {
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'apple'), isGameOver())"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'grape'), isGameOver())"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'pear'), isGameOver())"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')">test(?)</button></div>`,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Cannot be placed!')"><svg xmlns="http://www.w3.org/2000/svg" class="w-13 h-13 z-10" viewBox="0 0 27 27" > <path d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z" style=" fill: #000; stroke: #000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9" style=" fill: ${dino_quaternary}; stroke: ${dino_quaternary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z" style=" fill: ${dino_tetriary}; stroke: ${dino_tetriary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z" style=" fill: ${dino_primary}; stroke: ${dino_primary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M13 3v2h1V3z" style=" fill: #fff; stroke: #fff; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z" style=" fill: #b20000; stroke: #b20000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3" style=" fill: ${dino_secondary}; stroke: ${dino_secondary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z" style=" fill: #ebb328; stroke: #ebb328; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 17v5h1v-5zm1 5v1h1v-1z" style=" fill: #edc36f; stroke: #edc36f; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M9 17v5h1v1h2v-5h-1v-1H9" style=" fill: #ffda89; stroke: #ffda89; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z" style=" fill: #ffed87; stroke: #ffed87; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z" style=" fill: #f4da23; stroke: #f4da23; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /></svg></button></div>`,
+                ``,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Ide csinald meg hofgy azt monmdj a a dino hogy nem eszem meg m,agam')"><svg xmlns="http://www.w3.org/2000/svg" class="w-13 h-13 z-10" viewBox="0 0 27 27" > <path d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z" style=" fill: #000; stroke: #000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9" style=" fill: ${dino_quaternary}; stroke: ${dino_quaternary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z" style=" fill: ${dino_tetriary}; stroke: ${dino_tetriary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z" style=" fill: ${dino_primary}; stroke: ${dino_primary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M13 3v2h1V3z" style=" fill: #fff; stroke: #fff; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z" style=" fill: #b20000; stroke: #b20000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3" style=" fill: ${dino_secondary}; stroke: ${dino_secondary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z" style=" fill: #ebb328; stroke: #ebb328; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 17v5h1v-5zm1 5v1h1v-1z" style=" fill: #edc36f; stroke: #edc36f; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M9 17v5h1v1h2v-5h-1v-1H9" style=" fill: #ffda89; stroke: #ffda89; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z" style=" fill: #ffed87; stroke: #ffed87; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z" style=" fill: #f4da23; stroke: #f4da23; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /></svg></button></div>`,
             ][field[i][u]]; // Get whatever is supposed to get drawn from the array
         }
 
@@ -275,15 +272,18 @@ function placePlayer(row, column, fruit) {
 }
 
 async function isGameOver() {
-    if (
-        on_field_fruits_count == 0
-    ) // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
-    {
-        confetti();
-        await new Promise((r) => setTimeout(r, 1500)).then(() => {
+    if (!isAnyFruitNearby()) {
+        if (on_field_fruits_count === 0) {
+            // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
+
+            confetti();
+            await new Promise((r) => setTimeout(r, 1500)).then(() => {
+                gameOver();
+            });
+            // Replace this with gameover logic
+        } else {
             gameOver();
-        });
-        // Replace this with gameover logic
+        }
     }
     return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
@@ -298,9 +298,9 @@ function fruitEnergy(){
 
 function isAnyFruitNearby() {
     let fruit_array = []; // Will be filled with coordinates of fruit containing tiles
-    for (const [rowindex, row] of field.entries()) {
+    for (let [rowindex, row] of field.entries()) {
         // Iterate over the field while capturing each index for later usage
-        for (const [columnindex, column] of row.entries()) {
+        for (let [columnindex, column] of row.entries()) {
             // Iterate over the rows while capturing each index for later usage
             if (
                 4 > column &&
@@ -308,12 +308,14 @@ function isAnyFruitNearby() {
             ) // If the current tile is neither empty or contains the player
             {
                 fruit_array.push([rowindex, columnindex]); // Put that tile into fruit_array
+                console.log(fruit_array);
             }
         }
     }
 
-    for (fruits in fruit_array) {
+    for (let [_, fruits] of fruit_array.entries()) {
         // Iterate over the fruit_array to check if any fruit is reachable
+
         if (
             energy + fruitEnergy() - (Math.abs(fruits[0] - last_tile_player_was_on[0]) + Math.abs(fruits[1] - last_tile_player_was_on[1])) >=0
         ) // If using the placePlayer logic for movement it returns a non-zero value
@@ -652,3 +654,6 @@ function confetti() {
         conf_div.innerHTML = ``;
     }
 }
+
+// TODO:
+// Block manual game over when start popup is up

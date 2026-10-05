@@ -28,7 +28,15 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
-
+    let fruits=[]
+    for (let i = 0; i < Math.floor(size*size/gyumi_fraction); i++){
+        let tile=[Math.floor(Math.random() * size),Math.floor(Math.random() * size)]
+        while(fruits.includes(tile)){
+            
+            tile=[Math.floor(Math.random() * size),Math.floor(Math.random() * size)]
+        }
+        fruits.push(tile)
+    }
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
         field[i] = []; // Make an empty array for a new row
@@ -36,8 +44,7 @@ function initField(size) {
             // Iterate over the size again to fill the rows with values
             if (
                 // Used to fill the tiles with fruit 1 / gyumi_fraction of the time
-                Math.floor(Math.random() * gyumi_fraction) ===
-                gyumi_fraction - 1
+                fruits.includes([i,u])
             ) {
                 // If true it generates a random number between 1 and 3 to represent the fruits
                 field[i][u] = Math.floor(Math.random() * 3) + 1;

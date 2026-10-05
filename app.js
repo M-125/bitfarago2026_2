@@ -28,14 +28,19 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
-    let fruits=[]
-    for (let i = 0; i < Math.floor(size*size/gyumi_fraction); i++){
-        let tile=[Math.floor(Math.random() * size),Math.floor(Math.random() * size)]
-        while(fruits.includes(tile)){
-            
-            tile=[Math.floor(Math.random() * size),Math.floor(Math.random() * size)]
+    let fruits = [];
+    for (let i = 0; i < Math.floor((size * size) / gyumi_fraction); i++) {
+        let tile = [
+            Math.floor(Math.random() * size),
+            Math.floor(Math.random() * size),
+        ];
+        while (fruits.includes(tile)) {
+            tile = [
+                Math.floor(Math.random() * size),
+                Math.floor(Math.random() * size),
+            ];
         }
-        fruits.push(tile)
+        fruits.push(tile);
     }
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
@@ -44,7 +49,7 @@ function initField(size) {
             // Iterate over the size again to fill the rows with values
             if (
                 // Used to fill the tiles with fruit 1 / gyumi_fraction of the time
-                fruits.includes([i,u])
+                fruits.includes([i, u])
             ) {
                 // If true it generates a random number between 1 and 3 to represent the fruits
                 field[i][u] = Math.floor(Math.random() * 3) + 1;
@@ -542,11 +547,12 @@ async function dinoWelcomeSpeech() {
     if (numberOfRestarts === 0) {
         await typewriterAnimation(
             "Szia! Látom ez az első alkalmad, hogy játszol.",
+            true,
         );
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation("Kérsz egy rövid bemutatót a játékról?");
         document.getElementById("playerTalk").innerHTML =
-            'Kérsz egy rövid bemutatót a játékról? <br> <div class=""><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
+            'Kérsz egy rövid bemutatót a játékról? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
     }
 }
 
@@ -584,13 +590,14 @@ async function gameInstructionSpeech(isAccepted) {
         await new Promise((r) => setTimeout(r, 1000));
         await typewriterAnimation("Elmondjam újra?");
         document.getElementById("playerTalk").innerHTML =
-            'Elmondjam újra? <br> <div class=""><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
+            'Elmondjam újra? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
     } else {
         await typewriterAnimation("Rendben. Jó játékot!");
     }
 }
 
-async function typewriterAnimation(text) {
+async function typewriterAnimation(text, isMakeNextButton) {
+    document.getElementById("nextSpeech").classList.add("hidden");
     const text_len = text.length;
     let to_be_dispalyed = "";
     for (
@@ -612,8 +619,18 @@ async function typewriterAnimation(text) {
             document.getElementById("dinoSpeechSVG").classList.add("-rotate-5");
         }
     }
+    if (isMakeNextButton) {
+        document.getElementById("playerTalk").innerHTML = text;
+        document.getElementById("nextSpeech").classList.remove("hidden");
+    }
     document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
     document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
+}
+
+function promiseNextText() {
+    return new Promise((resolve) => {
+        document.addEventListener;
+    });
 }
 
 function confetti() {

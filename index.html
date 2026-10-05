@@ -3,285 +3,145 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        
+
         <script
-        src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
-        crossorigin="anonymous"
-        integrity=""
+            src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+            crossorigin="anonymous"
+            integrity=""
         ></script>
         <link rel="stylesheet" href="style.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-        href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap"
-        rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap"
+            rel="stylesheet"
         />
-        <link href="https://fonts.googleapis.com/css2?family=Ranchers&family=Rubik+Bubbles&display=swap" rel="stylesheet">
         <link
-        href="tailwindstyle.css"
-        rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Ranchers&family=Rubik+Bubbles&display=swap"
+            rel="stylesheet"
         />
+        <link href="tailwindstyle.css" rel="stylesheet" />
         <link
             rel="icon"
             sizes="48x48"
             type="image/png"
             href="https://assets.raspberrypi.com/favicon.png"
             data-gatsby-head="true"
-            />
+        />
         <title>Kerti Pincék - Gyümimajszoló</title>
     </head>
     <body class="bg-blue-200/80">
-        <span class="hidden rubik">to aviod lag when showing the welcome text its required to write ő and ű as the page initializes so it can be downloaded from google</span>
-        <div id="game_over" class="hidden absolute z-10000 bg-white shadow-black shadow-md w-100 fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg border-black border-solid border-2">
+        <span class="hidden rubik"
+            >to aviod lag when showing the welcome text its required to write ő
+            and ű as the page initializes so it can be downloaded from
+            google</span
+        >
+        <div
+            id="game_over"
+            class="hidden absolute z-10000 bg-white shadow-black shadow-md w-100 fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg border-black border-solid border-2"
+        >
             <div class="border-b-2 border-b-solid mb-0 p-0">
-                <p class="text-4xl text-center font-bold lili mb-5 text-shadow-md">Játék vége</p>
+                <p
+                    class="text-4xl text-center font-bold lili mb-5 text-shadow-md"
+                >
+                    Játék vége
+                </p>
             </div>
-            <div id="score_div" class="bg-white shadow-black shadow-md p-2 my-2 rounded-lg border-black border-solid border-2 h-12 overflow-hidden ease-in duration-400">
+            <div
+                id="score_div"
+                class="bg-white shadow-black shadow-md p-2 my-2 rounded-lg border-black border-solid border-2 h-12 overflow-hidden ease-in duration-400"
+            >
                 <!-- JS inject -->
             </div>
             <div>
-                <button type="submit" onclick="select_popup()" id="restart_button" class="justify-center m-auto flex mt-4 lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid hover">Újrainidítás</button>
+                <button
+                    type="submit"
+                    onclick="select_popup()"
+                    id="restart_button"
+                    class="justify-center m-auto flex mt-4 lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid hover"
+                >
+                    Újrainidítás
+                </button>
             </div>
         </div>
-        
+
         <div
-        class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg text-pretty"
-        id="selection_popup"
+            class="bg-white shadow-black shadow-md w-fit fixed left-1/2 -translate-x-1/2 top-50 p-6 rounded-lg text-pretty"
+            id="selection_popup"
         >
-        <form id="initForm">
-            <p class="text-4xl text-center font-bold lili mb-5">Opciók</p>
-            <div class="mb-2">
-                <label
-                for="field_size_input"
-                class="text-2xl font-bold lili"
-                >Pálya hossza [10; 16]:
-            </label>
-            <input
-            id="field_size_input"
-            type="number"
-            name="field_size_input"
+            <form id="initForm">
+                <p class="text-4xl text-center font-bold lili mb-5">Opciók</p>
+                <div class="mb-2">
+                    <label
+                        for="field_size_input"
+                        class="text-2xl font-bold lili"
+                        >Pálya hossza [10; 16]:
+                    </label>
+                    <input
+                        id="field_size_input"
+                        type="number"
+                        name="field_size_input"
                         min="10"
                         max="16"
                         class="lili text-2xl"
                         value="10"
-                        />
+                    />
                 </div>
                 <div class="my-4">
                     <div>
-                        <p class="lili text-2xl">Nehézségi szint: </p>
+                        <p class="lili text-2xl">Nehézségi szint:</p>
                     </div>
                     <div class="flex justify-evenly w-full">
-                        <div><button type="button" id="dif_easy" onclick="set_difficulty(this)" class="bg-green-200 border-3 rounded-md px-3 py-1 border-solid border-green-600 lili text-green-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black">LAZA</button></div>
-                        <div><button type="button" id="dif_mid" onclick="set_difficulty(this)" class="bg-amber-300 border-3 rounded-md px-3 py-1 border-solid border-amber-600 lili text-amber-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black">KÖZEPES</button></div>
-                        <div><button type="button" id="dif_hard" onclick="set_difficulty(this)" class="bg-red-200 border-3 rounded-md px-3 py-1 border-solid border-red-600 lili text-red-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black">NEHÉZ</button></div>
+                        <div>
+                            <button
+                                type="button"
+                                id="dif_easy"
+                                onclick="set_difficulty(this)"
+                                class="bg-green-200 border-3 rounded-md px-3 py-1 border-solid border-green-600 lili text-green-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black"
+                            >
+                                LAZA
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                id="dif_mid"
+                                onclick="set_difficulty(this)"
+                                class="bg-amber-300 border-3 rounded-md px-3 py-1 border-solid border-amber-600 lili text-amber-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black"
+                            >
+                                KÖZEPES
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                id="dif_hard"
+                                onclick="set_difficulty(this)"
+                                class="bg-red-200 border-3 rounded-md px-3 py-1 border-solid border-red-600 lili text-red-600 text-lg cursor-pointer hover:bg-white ease-in-out duration-300 shadow-md/30 shadow-black"
+                            >
+                                NEHÉZ
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="align-middle flex mb-3">
                     <label for="character_color" class="text-2xl font-bold lili"
-                    >Karakter színe:
-                </label>
-                <input
-                type="color"
+                        >Karakter színe:
+                    </label>
+                    <input
+                        type="color"
                         name="character_color"
                         id="character_color"
                         value="#3ec15b"
                         class="ml-3"
-                        />
-                    </div>
-                    <div class="border-2 border-solid w-fit m-auto p-1">
-                        <svg
+                    />
+                </div>
+                <div class="border-2 border-solid w-fit m-auto p-1">
+                    <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-13 h-13"
                         viewBox="0 0 27 27"
-                        >
-                        <path
-                        d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z"
-                        style="
-                        fill: #000;
-                        stroke: #000;
-                        fill-opacity: 1;
-                        stroke-width: 0.1;
-                        stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                                "
-                        />
-                        <path
-                        d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9"
-                        style="
-                        fill: #1b682c;
-                        stroke: #1b682c;
-                        fill-opacity: 1;
-                        stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                            id="dino_quaternary_color"
-                        />
-                        <path
-                            d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z"
-                            style="
-                                fill: #61db7b;
-                                stroke: #61db7b;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                            id="dino_tetriary_color"
-                        />
-                        <path
-                            d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z"
-                            style="
-                                fill: #3ec15b;
-                                stroke: #3ec15b;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                            id="dino_primary_color"
-                        />
-                        <path
-                            d="M13 3v2h1V3z"
-                            style="
-                                fill: #fff;
-                                stroke: #fff;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z"
-                            style="
-                                fill: #b20000;
-                                stroke: #b20000;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3"
-                            style="
-                                fill: #2b9342;
-                                stroke: #2b9342;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                            id="dino_secondary_color"
-                        />
-                        <path
-                            d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z"
-                            style="
-                                fill: #ebb328;
-                                stroke: #ebb328;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M8 17v5h1v-5zm1 5v1h1v-1z"
-                            style="
-                                fill: #edc36f;
-                                stroke: #edc36f;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M9 17v5h1v1h2v-5h-1v-1H9"
-                            style="
-                                fill: #ffda89;
-                                stroke: #ffda89;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z"
-                            style="
-                                fill: #ffed87;
-                                stroke: #ffed87;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                        <path
-                            d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z"
-                            style="
-                                fill: #f4da23;
-                                stroke: #f4da23;
-                                fill-opacity: 1;
-                                stroke-width: 0.1;
-                                stroke-opacity: 1;
-                                stroke-dasharray: none;
-                                stroke-linejoin: miter;
-                                paint-order: stroke fill markers;
-                            "
-                        />
-                    </svg>
-                </div>
-
-                <button
-                    type="submit"
-                    class="justify-center m-auto flex mt-4 lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid"
-                >
-                    Start
-                </button>
-            </form>
-        </div>
-        <div id="confetti_placeholder"></div>
-
-        <div class="blur-sm hidden" id="beBlurred">
-            <div>
-                <header>
-                    <div class="m-auto max-w-2/3 w-fit text-pretty flex mb-5 items-start">
-                    <!-- <div class="m-auto w-fit float-start"> !-->
-
-                    
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-15 h-15 -scale-x-100"
-                        viewBox="0 0 27 27"
-                        id="dinoSpeechSVG"
-                        
                     >
-                    <g>
                         <path
                             d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z"
                             style="
@@ -441,21 +301,216 @@
                                 stroke-linejoin: miter;
                                 paint-order: stroke fill markers;
                             "
-                        /></g>
+                        />
                     </svg>
+                </div>
+
+                <button
+                    type="submit"
+                    class="justify-center m-auto flex mt-4 lili bg-black text-white p-2 text-xl rounded-lg cursor-pointer hover:bg-white hover:text-black ease-in-out duration-300 hover:outline-2 hover:outline-solid"
+                >
+                    Start
+                </button>
+            </form>
+        </div>
+        <div id="confetti_placeholder"></div>
+
+        <div class="blur-sm hidden" id="beBlurred">
+            <div>
+                <header>
                     <div
+                        class="m-auto max-w-2/3 w-fit text-pretty flex mb-5 items-start"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-15 h-15 -scale-x-100"
+                            viewBox="0 0 27 27"
+                            id="dinoSpeechSVG"
+                        >
+                            <g>
+                                <path
+                                    d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z"
+                                    style="
+                                        fill: #000;
+                                        stroke: #000;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9"
+                                    style="
+                                        fill: #1b682c;
+                                        stroke: #1b682c;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                    id="dino_quaternary_color"
+                                />
+                                <path
+                                    d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z"
+                                    style="
+                                        fill: #61db7b;
+                                        stroke: #61db7b;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                    id="dino_tetriary_color"
+                                />
+                                <path
+                                    d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z"
+                                    style="
+                                        fill: #3ec15b;
+                                        stroke: #3ec15b;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                    id="dino_primary_color"
+                                />
+                                <path
+                                    d="M13 3v2h1V3z"
+                                    style="
+                                        fill: #fff;
+                                        stroke: #fff;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z"
+                                    style="
+                                        fill: #b20000;
+                                        stroke: #b20000;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3"
+                                    style="
+                                        fill: #2b9342;
+                                        stroke: #2b9342;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                    id="dino_secondary_color"
+                                />
+                                <path
+                                    d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z"
+                                    style="
+                                        fill: #ebb328;
+                                        stroke: #ebb328;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M8 17v5h1v-5zm1 5v1h1v-1z"
+                                    style="
+                                        fill: #edc36f;
+                                        stroke: #edc36f;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M9 17v5h1v1h2v-5h-1v-1H9"
+                                    style="
+                                        fill: #ffda89;
+                                        stroke: #ffda89;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z"
+                                    style="
+                                        fill: #ffed87;
+                                        stroke: #ffed87;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                                <path
+                                    d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z"
+                                    style="
+                                        fill: #f4da23;
+                                        stroke: #f4da23;
+                                        fill-opacity: 1;
+                                        stroke-width: 0.1;
+                                        stroke-opacity: 1;
+                                        stroke-dasharray: none;
+                                        stroke-linejoin: miter;
+                                        paint-order: stroke fill markers;
+                                    "
+                                />
+                            </g>
+                        </svg>
+                        <div
                             class="bg-white rounded-3xl p-1.5 w-fit h-fit relative top-4 mx-1"
                         ></div>
-                    <div
-                        class="bg-white shadow-xl w-fit h-fit rounded-xl p-2 m-aut"
-                    >
-                        <p id="playerTalk" class="rubik">Szia faszos nagyon sok szoveg megtobb szoveg mondd hogy warappelsz legyszi wrappelj kerlek</p>
+
+                        <div
+                            class="bg-white shadow-xl w-fit h-fit rounded-xl p-2 m-auto relative"
+                        >
+                            <p id="playerTalk" class="rubik"></p>
+                            <div
+                                class="absolute -bottom-2 -right-2 bg-white rounded-xl rubik w-5 flex"
+                                id="nextSpeech"
+                            >
+                                <button class="m-auto">></button>
+                            </div>
+                        </div>
                     </div>
-                    
-                </div>
                 </header>
                 <div class="float-right mr-5">
-                    <div class="flex gap-3 bg-blue-800 rounded-md text-white p-2 my-3 border-2 border-black">
+                    <div
+                        class="flex gap-3 bg-blue-800 rounded-md text-white p-2 my-3 border-2 border-black"
+                    >
                         <p class="lili text-lg">Energia:</p>
                         <p id="energy" class="lili text-lg"></p>
                     </div>
@@ -488,11 +543,11 @@
                             Játék leállítása
                         </button>
                     </div>
-                </div>                
+                </div>
             </div>
             <div id="playArea" class="m-auto w-fit"></div>
-            </div>
         </div>
+
         <script src="app.js"></script>
     </body>
 </html>

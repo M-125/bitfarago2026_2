@@ -15,12 +15,7 @@ let numberOfRestarts = 0; // How many times has the player restarted
 let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
 const background_music = new Audio("./assets/background_music.mp3");
 
-
 // GLOBALS END
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function initField(size) {
     // This function initializes the playing area [field] by generating its arrays and filling the tiles with fruits
@@ -259,7 +254,7 @@ function placePlayer(row, column, fruit) {
             field[row].splice(column, 1, 5); // Replace given tile with player head
             drawField(field); // Draw the new field with the player head
             on_field_fruits_count -= 1;
-            if(on_field_fruits_count == 0) {
+            if (on_field_fruits_count == 0) {
                 is_game_stopped_manually = false;
             }
         }
@@ -279,13 +274,15 @@ function placePlayer(row, column, fruit) {
     isGameOver(); // Check if game is over !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
 }
 
-function isGameOver() {
+async function isGameOver() {
     if (
         on_field_fruits_count == 0
     ) // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
     {
         confetti();
-        sleep(1500).then(() => { gameOver(); });
+        await new Promise((r) => setTimeout(r, 1500)).then(() => {
+            gameOver();
+        });
         // Replace this with gameover logic
     }
     return false; // !!! COULD BE REMOVED, TAKE REMOVAL INTO CONSIDERATION IN TESTING
@@ -350,10 +347,9 @@ function gameOver() {
     init_score_div();
     numberOfRestarts += 1;
 
-    if(on_field_fruits_count != 0) {
+    if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
-    }
-    else {
+    } else {
         is_game_stopped_manually = false;
     }
 }
@@ -537,7 +533,9 @@ async function gameInstructionSpeech(isAccepted) {
             "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",
         );
         await new Promise((r) => setTimeout(r, 500));
-        await typewriterAnimation("Háromféle gyümölcs van: Alma, Szőlő, Körte.");
+        await typewriterAnimation(
+            "Háromféle gyümölcs van: Alma, Szőlő, Körte.",
+        );
         await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation(
             "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",
@@ -598,7 +596,7 @@ async function typewriterAnimation(text) {
 function confetti() {
     const conf_div = document.getElementById("confetti_placeholder");
 
-    if (conf_div.innerHTML == `` & !is_game_stopped_manually) {
+    if ((conf_div.innerHTML == ``) & !is_game_stopped_manually) {
         conf_div.innerHTML = `<div class="confetti_div">
             <div class="confetti"></div>
             <div class="confetti"></div>
@@ -645,8 +643,7 @@ function confetti() {
             <div class="confetti"></div>
 
             </div>`;
-    }
-    else {
+    } else {
         conf_div.innerHTML = ``;
     }
 }

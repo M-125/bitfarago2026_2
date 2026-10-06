@@ -556,38 +556,48 @@ async function dinoWelcomeSpeech() {
     }
 }
 
+// Source - https://stackoverflow.com/a/63045131
+// Posted by JohanP, modified by community. See post 'Timeline' for change history
+// Retrieved 2026-10-06, License - CC BY-SA 4.0
+//Igen stack overflowról kaptam le, de talán mükszik
+// és igen, mükszik
+async function btnClick(btn) {
+  return new Promise(resolve =>  btn.onclick = () => resolve());//majd talán felfogom hogy mi ez
+}
+
+
 async function gameInstructionSpeech(isAccepted) {
     if (isAccepted) {
         await typewriterAnimation(
-            "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",
+            "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",true
         );
-        await new Promise((r) => setTimeout(r, 500));
+        
         await typewriterAnimation(
-            "Háromféle gyümölcs van: Alma, Szőlő, Körte.",
+            "Háromféle gyümölcs van: Alma, Szőlő, Körte.",true
         );
-        await new Promise((r) => setTimeout(r, 500));
+        
         await typewriterAnimation(
-            "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",
+            "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",true
         );
-        await new Promise((r) => setTimeout(r, 500));
+        
         await typewriterAnimation(
-            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, hogy megetetsz finom gyümikkel.",
+            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, hogy megetetsz finom gyümikkel.",true
         );
-        await new Promise((r) => setTimeout(r, 750));
+        
         await typewriterAnimation(
-            "Csak kattints a kívánt gyümire, és el fogom majszolni!",
+            "Csak kattints a kívánt gyümire, és el fogom majszolni!",true
         );
-        await new Promise((r) => setTimeout(r, 500));
+        
         await typewriterAnimation(
-            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod, mennyi pontot értél el!",
+            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod, mennyi pontot értél el!",true
         );
-        await new Promise((r) => setTimeout(r, 750));
-        await typewriterAnimation("Minden gyümi ami nálad van pontokat ér");
-        await new Promise((r) => setTimeout(r, 500));
+        
+        await typewriterAnimation("Minden gyümi ami nálad van pontokat ér",true);
+        
         await typewriterAnimation(
-            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek.",
+            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek.",true
         );
-        await new Promise((r) => setTimeout(r, 1000));
+        
         await typewriterAnimation("Elmondjam újra?");
         document.getElementById("playerTalk").innerHTML =
             'Elmondjam újra? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
@@ -619,12 +629,13 @@ async function typewriterAnimation(text, isMakeNextButton) {
             document.getElementById("dinoSpeechSVG").classList.add("-rotate-5");
         }
     }
+    document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
+    document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
     if (isMakeNextButton) {
         document.getElementById("playerTalk").innerHTML = text;
         document.getElementById("nextSpeech").classList.remove("hidden");
+        await btnClick(document.getElementById("nextSpeech")) //wait until BUTTon press
     }
-    document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
-    document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
 }
 
 function promiseNextText() {

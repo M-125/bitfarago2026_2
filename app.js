@@ -549,7 +549,6 @@ async function dinoWelcomeSpeech() {
             "Szia! Látom ez az első alkalmad, hogy játszol.",
             true,
         );
-        await new Promise((r) => setTimeout(r, 500));
         await typewriterAnimation("Kérsz egy rövid bemutatót a játékról?");
         document.getElementById("playerTalk").innerHTML =
             'Kérsz egy rövid bemutatót a játékról? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';

@@ -191,7 +191,7 @@ function drawField(field) {
     const row_classes = "h-13 flex"; // Used for classing the row divs
     const tile_classes =
         "ring-2 aspect-square h-13 w-13 bg-orange-200 text-center"; // Used for classing the tile divs
-    const button_classes = "w-13 h-13"; // Used for classing tile buttons
+    const button_classes = ""; // Used for classing tile buttons
     // Code reused from watchColorPicker
     // Base colors in hsl
     // Primary = 133, 51, 50
@@ -217,7 +217,7 @@ function drawField(field) {
             u++ // Iterate again to get the values of tiles
         ) {
             to_draw += [
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="typewriterAnimation('Hé! Ez nem egy gyümi, ide nem tudok menni!')">⠀</button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="w-13 h-13 ${button_classes}" onclick="typewriterAnimation('Hé! Ez nem egy gyümi, ide nem tudok menni!')">⠀</button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'apple'), isGameOver())"><img src="./assets/apple.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'grape'), isGameOver())"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'pear'), isGameOver())"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,

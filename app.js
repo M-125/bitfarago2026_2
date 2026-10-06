@@ -43,13 +43,13 @@ function initField(size) {
             Math.floor(Math.random() * size),
             Math.floor(Math.random() * size),
         ];
-        while (field[tile[0]][tile[1]]!=0) {
+        while (field[tile[0]][tile[1]] != 0) {
             tile = [
                 Math.floor(Math.random() * size),
                 Math.floor(Math.random() * size),
             ];
         }
-        
+
         field[tile[0]][tile[1]] = Math.floor(Math.random() * 3) + 1;
         on_field_fruits_count += 1;
     }
@@ -346,7 +346,7 @@ function update_counters() {
 function eatFruit(fruit) {
     if (collected[fruit] > 0) // If there is one or more fruit to be eaten
     {
-        collected[fruit] -= 1; // Subtract one off that fruit
+        if (Math.floor(Math.random() * 5) == 4) collected[fruit] -= 1; // Subtract one off that fruit
         energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
         update_counters(); // Update the displayed counters
         const butt = document.getElementById(fruit).parentElement; // a BUTT
@@ -545,6 +545,18 @@ async function dinoWelcomeSpeech() {
         await typewriterAnimation("Kérsz egy rövid bemutatót a játékról?");
         document.getElementById("playerTalk").innerHTML =
             'Kérsz egy rövid bemutatót a játékról? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
+    } else if (numberOfRestarts > 100) {
+        await typewriterAnimation(
+            "Szerintem már jobban ismered a játékot mint mi. -Kerti Pincék",
+        );
+        await typewriterAnimation("M-mi történt?");
+        await typewriterAnimation("Mondtam valamit??");
+        await typewriterAnimation("Na mindegy!");
+        await typewriterAnimation("Jó játékot");
+    } else if (numberOfRestarts > 2) {
+        await typewriterAnimation(
+            "Látom már játszottál. Úgy hiszem, tudod mit kell csinálnod",
+        );
     }
 }
 
@@ -554,42 +566,51 @@ async function dinoWelcomeSpeech() {
 //Igen stack overflowról kaptam le, de talán mükszik
 // és igen, mükszik
 async function btnClick(btn) {
-  return new Promise(resolve =>  btn.onclick = () => resolve());//majd talán felfogom hogy mi ez
+    return new Promise((resolve) => (btn.onclick = () => resolve())); //majd talán felfogom hogy mi ez
 }
-
 
 async function gameInstructionSpeech(isAccepted) {
     if (isAccepted) {
         await typewriterAnimation(
-            "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",true
+            "Ebben a játékban gyümölcsöket kell öszzegyűjtened.",
+            true,
         );
-        
+
         await typewriterAnimation(
-            "Háromféle gyümölcs van: Alma, Szőlő, Körte.",true
+            "Háromféle gyümölcs van: Alma, Szőlő, Körte.",
+            true,
         );
-        
+
         await typewriterAnimation(
-            "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",true
+            "Mindig, amikor rákattintasz egy olyan mezőre, amiben van egy gyümölcs, oda fogok menni.",
+            true,
         );
-        
+
         await typewriterAnimation(
-            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, hogy megetetsz finom gyümikkel.",true
+            "Viszont vigyázz, mert el tudok fáradni! Ezt azzal tudod elkerülni, hogy megetetsz finom gyümikkel.",
+            true,
         );
-        
+
         await typewriterAnimation(
-            "Csak kattints a kívánt gyümire, és el fogom majszolni!",true
+            "Csak kattints a kívánt gyümire, és el fogom majszolni!",
+            true,
         );
-        
+
         await typewriterAnimation(
-            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod, mennyi pontot értél el!",true
+            "Ha úgy érzed, hogy elég gyümi van nálad, kattints a 'Játék leállítása' gombra, és meglátod, mennyi pontot értél el!",
+            true,
         );
-        
-        await typewriterAnimation("Minden gyümi ami nálad van pontokat ér",true);
-        
+
         await typewriterAnimation(
-            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek.",true
+            "Minden gyümi ami nálad van pontokat ér",
+            true,
         );
-        
+
+        await typewriterAnimation(
+            "Egy alma kettőt, egy szőlő hármat, egy szőlő-alma páros megint kettőt és végül a körték n (n+1) / 2 pontot érnek.",
+            true,
+        );
+
         await typewriterAnimation("Elmondjam újra?");
         document.getElementById("playerTalk").innerHTML =
             'Elmondjam újra? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
@@ -605,10 +626,21 @@ async function typewriterAnimation(text, isMakeNextButton) {
     for (
         let i = 0;
         i < text_len;
-        i++, await new Promise((r) => setTimeout(r, 40))
+        i++, await new Promise((r) => setTimeout(r, 25))
     ) {
         to_be_dispalyed += text[i];
+        document.getElementById("dinoTalk").cloneNode(true).play();
         document.getElementById("playerTalk").innerHTML = to_be_dispalyed;
+        if (
+            text[i] === " " ||
+            text[i] === "," ||
+            text[i] === "." ||
+            text[i] === "!" ||
+            text[i] === ":"
+        ) {
+            await new Promise((r) => setTimeout(r, 50));
+            document.querySelectorAll("audio").forEach((el) => el.pause());
+        }
         if (i % 2 == 0) {
             document
                 .getElementById("dinoSpeechSVG")
@@ -626,7 +658,7 @@ async function typewriterAnimation(text, isMakeNextButton) {
     if (isMakeNextButton) {
         document.getElementById("playerTalk").innerHTML = text;
         document.getElementById("nextSpeech").classList.remove("hidden");
-        await btnClick(document.getElementById("nextSpeech")) //wait until BUTTon press
+        await btnClick(document.getElementById("nextSpeech")); //wait until BUTTon press
     }
 }
 

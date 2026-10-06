@@ -28,6 +28,7 @@ function initField(size) {
     // 3 means it contains a pear
     // 4 means it contains the player's body
     // 5 means it contains the players head, which should have a non-directional sprite
+    field=[]
     for (let i = 0; i < size; i++) {
         // Iterate over the provided size
         field[i] = []; // Make an empty array for a new row

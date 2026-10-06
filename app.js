@@ -344,9 +344,50 @@ function update_counters() {
 }
 
 function eatFruit(fruit) {
+    appleSpeech = [
+        "Annyira finom ez az alma!",
+        "Kaphatnék még egyet légyszi?",
+        "Ha naponta megeszek ebből egyet, nem kell orvoshoz járnom..",
+        "Imádom a piros dolgokat!",
+    ];
+    grapeSpeech = [
+        "Annyira fincsa ez a szőlő!",
+        "Imádom a bogyókat!",
+        "Az a kedvencem amikor hideg és ropogós!",
+        "Igazi muskotálya van ennek!",
+    ];
+    pearSpeech = [
+        "Annyira finom ez a körte!",
+        "Nagyon kedvelem a körtéknek a sajátos ízét!",
+        "A nagyapám vilmos körtéjéhez ez közel sincs!",
+        "Placeholder", // REPLACE
+    ];
     if (collected[fruit] > 0) // If there is one or more fruit to be eaten
     {
-        if (Math.floor(Math.random() * 5) == 4) collected[fruit] -= 1; // Subtract one off that fruit
+        if (
+            Math.floor(Math.random() * 5) >= 1
+        ) // 4/5 chance that there is speech after an eaten fruit
+        {
+            if (
+                Math.floor(Math.random() * 100) === 67
+            ) // 1 in 100 chance to be rotten
+            {
+                typewriterAnimation(`FÚJ!!! Ez rohadt volt!!`);
+            } else if (fruit === "apple") {
+                typewriterAnimation(
+                    appleSpeech[Math.floor(Math.random() * appleSpeech.length)],
+                );
+            } else if (fruit === "grape") {
+                typewriterAnimation(
+                    grapeSpeech[Math.floor(Math.random() * grapeSpeech.length)],
+                );
+            } else if (fruit === "pear") {
+                typewriterAnimation(
+                    pearSpeech[Math.floor(Math.random() * pearSpeech.length)],
+                );
+            }
+        }
+        collected[fruit] -= 1; // Subtract one off that fruit
         energy += fruit_energy[fruit]; // Give energy corresponding to that fruit
         update_counters(); // Update the displayed counters
         const butt = document.getElementById(fruit).parentElement; // a BUTT
@@ -548,12 +589,13 @@ async function dinoWelcomeSpeech() {
     } else if (numberOfRestarts > 100) {
         await typewriterAnimation(
             "Szerintem már jobban ismered a játékot mint mi. -Kerti Pincék",
+            true,
         );
-        await typewriterAnimation("M-mi történt?");
-        await typewriterAnimation("Mondtam valamit??");
-        await typewriterAnimation("Na mindegy!");
+        await typewriterAnimation("M-mi történt?", true);
+        await typewriterAnimation("Mondtam valamit??", true);
+        await typewriterAnimation("Na mindegy!", true);
         await typewriterAnimation("Jó játékot");
-    } else if (numberOfRestarts > 2) {
+    } else if (numberOfRestarts > 0) {
         await typewriterAnimation(
             "Látom már játszottál. Úgy hiszem, tudod mit kell csinálnod",
         );
@@ -724,4 +766,6 @@ function confetti() {
 }
 
 // TODO:
-// Make dino color getter when pagge is refreshed
+// Get dino color on refresh
+// Make textbox not push field when choice selector is displayed
+// Make dino hop between placings

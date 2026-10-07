@@ -167,6 +167,7 @@ document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
+    show_ui()
     event.preventDefault();
     const formData = new FormData(event.target);
     document.getElementById("playArea").classList.add("ring-4");
@@ -283,6 +284,8 @@ async function isGameOver() {
             // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
 
             await typewriterAnimation("Hurrá!!!")
+            hide_ui();
+
             confetti();
             await new Promise((r) => setTimeout(r, 1500)).then(() => {
                 gameOver();
@@ -434,8 +437,12 @@ function popup() {
 }
 
 function hide_ui() {
-    const blurred = document.getElementById("beBlurred");
-    blurred.classList.add("hidden");
+    const ui = document.getElementById("ui");
+    ui.classList.add("hidden");
+}
+function show_ui() {
+    const ui = document.getElementById("ui");
+    ui.classList.remove("hidden");
 }
 
 function init_score_div() {

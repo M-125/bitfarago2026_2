@@ -13,7 +13,7 @@ let energy_multiplier = 1;
 let gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 let numberOfRestarts = 0; // How many times has the player restarted
 let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
-const background_music = new Audio("./assets/background_music.mp3");
+let is_talking=false;
 
 // GLOBALS END
 
@@ -222,7 +222,7 @@ function drawField(field) {
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'grape'), isGameOver())"><img src="./assets/grape.svg" class="w-10 p-1" /></button></div>`,
                 `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="(placePlayer(${i}, ${u}, 'pear'), isGameOver())"><img src="./assets/pear.svg" class="w-10 p-1" /></button></div>`,
                 ``,
-                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="console.log('Ide csinald meg hofgy azt monmdj a a dino hogy nem eszem meg m,agam')"><svg xmlns="http://www.w3.org/2000/svg" class="w-13 h-13 z-10" viewBox="0 0 27 27" > <path d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z" style=" fill: #000; stroke: #000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9" style=" fill: ${dino_quaternary}; stroke: ${dino_quaternary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z" style=" fill: ${dino_tetriary}; stroke: ${dino_tetriary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z" style=" fill: ${dino_primary}; stroke: ${dino_primary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M13 3v2h1V3z" style=" fill: #fff; stroke: #fff; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z" style=" fill: #b20000; stroke: #b20000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3" style=" fill: ${dino_secondary}; stroke: ${dino_secondary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z" style=" fill: #ebb328; stroke: #ebb328; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 17v5h1v-5zm1 5v1h1v-1z" style=" fill: #edc36f; stroke: #edc36f; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M9 17v5h1v1h2v-5h-1v-1H9" style=" fill: #ffda89; stroke: #ffda89; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z" style=" fill: #ffed87; stroke: #ffed87; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z" style=" fill: #f4da23; stroke: #f4da23; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /></svg></button></div>`,
+                `<div id="tile-${i}-${u}" class="${tile_classes}"><button class="${button_classes}" onclick="typewriterAnimation('Ne is álmodj róla, nem eszem meg magam')"><svg xmlns="http://www.w3.org/2000/svg" class="w-13 h-13 z-10" viewBox="0 0 27 27" > <path d="M12 0v1h6V0h-6m6 1v1h2V1h-2m2 0h3V0h-3zm3 0v1h1V1zm1 1v2h1V2zm0 2h-1v1h1zm0 1v1h1V5zm1 1v1h1V6zm0 1h-1v2h1V7m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm0 1h-1v2h1v-2m-1 2h-1v1h1zm-1 1h-1v1h1zm0 1v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1zm0 1h-5v1h5zm-5 0v-1h-1v1zm-1 0h-1v2h1v-2m-1 2h-2v-2h-1v3h3zM12 1h-2v1h2zm-2 1H9v1h1zM9 3H8v2h1V3M8 5H4v1h4zM4 6H3v1h1zM3 7H2v1h1zM2 8H1v6h1V8m0 6v1h1v-1zm1 1v1h4v-1H3m4 1v6h1v-6zm1 6v2h1v-2zm1 2v1h1v-1zm1 1v2h3v-1h-2v-1zm3 1h1v-2h-1v2M12 3v3h2V5h-1V3z" style=" fill: #000; stroke: #000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 2v1h1V2zm1 1v2h1V3zm1 2v15h1V5zM8 5v1h1V5zm0 5v1h1v-1zm0 1H2v1h6zm5 4v3h1v-3zm1 3v1h3v-1h-3m3 0h1v-3h-1v3m-8 5v1h6v-1H9" style=" fill: ${dino_quaternary}; stroke: ${dino_quaternary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 1v1h6V1h-6m6 1v1h2V2h-2m-6 0h-2v1h2zm-2 1H9v1h1zM4 6v1h2V6H4m0 1H3v1h1zM3 8H2v1h1z" style=" fill: ${dino_tetriary}; stroke: ${dino_tetriary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M12 2v1h2v3h-2V3h-2v1H9v2H6v1H4v1H3v1H2v2h6v-1h1v1H8v1H2v1h6v1h1v1h1v1h1v1h1v1h1v-3h1v3h3v-3h1v4h-1v1h-3v-1h-1v4h2v1h1v2h2v-2h1v-2h1v1h3v-1h-1V5h-1V3h-3V2h-6m-1 5h1v1h1V7h1v1h-1v1h-1V8h-1v1h-1V8h1z" style=" fill: ${dino_primary}; stroke: ${dino_primary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M13 3v2h1V3z" style=" fill: #fff; stroke: #fff; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M11 7v1h1V7zm1 1v1h1V8zm1 0h1V7h-1zm-2 0h-1v1h1z" style=" fill: #b20000; stroke: #b20000; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M2 13v1h1v1h4v1h3v-1H9v-1H8v-1H2m11 5v1h1v-1zm1 1v1h3v-1h-3m3 0h1v-1h-1zm2 3v1h1v-1zm1 1v1h4v-1h-4m-10 1v1h1v1h2v-2h-3" style=" fill: ${dino_secondary}; stroke: ${dino_secondary}; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 16v1h3v-1H8m3 1v1h1v-1zm1 1v5h1v-5z" style=" fill: #ebb328; stroke: #ebb328; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M8 17v5h1v-5zm1 5v1h1v-1z" style=" fill: #edc36f; stroke: #edc36f; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M9 17v5h1v1h2v-5h-1v-1H9" style=" fill: #ffda89; stroke: #ffda89; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M20 1v1h3V1h-3m3 1v1h1V2zm0 3v1h1V5zm1 1v1h1V6zm-1 4v1h1v-1zm1 1v1h1v-1zm-1 4v1h1v-1zm1 1v1h1v-1z" style=" fill: #ffed87; stroke: #ffed87; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /> <path d="M21 2v1h1v2h1V4h1V3h-1V2h-2m2 4v3h1V6zm0 5v3h1v-3zm0 5v3h1v-3zm-1 5v1h1v-1zm1 1v1h1v-1zm1 1v1h1v-1z" style=" fill: #f4da23; stroke: #f4da23; fill-opacity: 1; stroke-width: 0.1; stroke-opacity: 1; stroke-dasharray: none; stroke-linejoin: miter; paint-order: stroke fill markers; " /></svg></button></div>`,
             ][field[i][u]]; // Get whatever is supposed to get drawn from the array
         }
 
@@ -282,6 +282,7 @@ async function isGameOver() {
         if (on_field_fruits_count === 0) {
             // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
 
+            await typewriterAnimation("Hurrá!!!")
             confetti();
             await new Promise((r) => setTimeout(r, 1500)).then(() => {
                 gameOver();
@@ -314,7 +315,6 @@ function isAnyFruitNearby() {
             ) // If the current tile is neither empty or contains the player
             {
                 fruit_array.push([rowindex, columnindex]); // Put that tile into fruit_array
-                console.log(fruit_array);
             }
         }
     }
@@ -361,7 +361,7 @@ function eatFruit(fruit) {
         "Annyira finom ez a körte!",
         "Nagyon kedvelem a körtéknek a sajátos ízét!",
         "A nagyapám vilmos körtéjéhez ez közel sincs!",
-        "Placeholder", // REPLACE
+        "Ez a körte éretlen volt :(", // REPLACE
     ];
     if (collected[fruit] > 0) // If there is one or more fruit to be eaten
     {
@@ -404,6 +404,7 @@ function gameOver() {
     document.getElementById("playArea").classList.remove("ring-4");
     init_score_div();
     numberOfRestarts += 1;
+    localStorage.setItem("numberOfRestarts",numberOfRestarts.toString())
     hide_ui();
     if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
@@ -579,6 +580,8 @@ function set_difficulty(button) {
 }
 
 async function dinoWelcomeSpeech() {
+    numberOfRestarts=parseInt(localStorage.getItem("numberOfRestarts"))
+    if(!numberOfRestarts) numberOfRestarts=0
     if (numberOfRestarts === 0) {
         await typewriterAnimation(
             "Szia! Látom ez az első alkalmad, hogy játszol.",
@@ -587,7 +590,7 @@ async function dinoWelcomeSpeech() {
         await typewriterAnimation("Kérsz egy rövid bemutatót a játékról?");
         document.getElementById("playerTalk").innerHTML =
             'Kérsz egy rövid bemutatót a játékról? <br> <div class="mx-auto w-fit"><button onClick="gameInstructionSpeech(true)" class="underline mx-2 cursor-pointer">Igen!</button><button onClick="gameInstructionSpeech(false)" class="underline mx-2 cursor-pointer">Nem!</button></div>';
-    } else if (numberOfRestarts > 100) {
+    } else if (numberOfRestarts > 10) {
         await typewriterAnimation(
             "Szerintem már jobban ismered a játékot mint mi. -Kerti Pincék",
             true,
@@ -663,56 +666,55 @@ async function gameInstructionSpeech(isAccepted) {
 }
 
 async function typewriterAnimation(text, isMakeNextButton) {
-    document.getElementById("nextSpeech").classList.add("hidden");
-    const text_len = text.length;
-    let to_be_dispalyed = "";
-    for (
-        let i = 0;
-        i < text_len;
-        i++, await new Promise((r) => setTimeout(r, 25))
-    ) {
-        to_be_dispalyed += text[i];
-        document.getElementById("dinoTalk").cloneNode(true).play();
-        document.getElementById("playerTalk").innerHTML = to_be_dispalyed;
-        if (
-            text[i] === " " ||
-            text[i] === "," ||
-            text[i] === "." ||
-            text[i] === "!" ||
-            text[i] === ":"
+    if (!is_talking){
+        is_talking=true
+        document.getElementById("nextSpeech").classList.add("hidden");
+        const text_len = text.length;
+        let to_be_dispalyed = "";
+        for (
+            let i = 0;
+            i < text_len;
+            i++, await new Promise((r) => setTimeout(r, 25))
         ) {
-            await new Promise((r) => setTimeout(r, 50));
+            to_be_dispalyed += text[i];
+            document.getElementById("dinoTalk").cloneNode(true).play();
+            document.getElementById("playerTalk").innerHTML = to_be_dispalyed;
+            if (
+                text[i] === " " ||
+                text[i] === "," ||
+                text[i] === "." ||
+                text[i] === "!" ||
+                text[i] === ":"
+            ) {
+                await new Promise((r) => setTimeout(r, 50));
+                document.querySelectorAll("audio").forEach((el) => el.pause());
+            }
+            if (i % 2 == 0) {
+                document
+                    .getElementById("dinoSpeechSVG")
+                    .classList.remove("-rotate-5");
+                document.getElementById("dinoSpeechSVG").classList.add("rotate-5");
+            } else {
+                document
+                    .getElementById("dinoSpeechSVG")
+                    .classList.remove("rotate-5");
+                document.getElementById("dinoSpeechSVG").classList.add("-rotate-5");
+            }
             document.querySelectorAll("audio").forEach((el) => el.pause());
         }
-        if (i % 2 == 0) {
-            document
-                .getElementById("dinoSpeechSVG")
-                .classList.remove("-rotate-5");
-            document.getElementById("dinoSpeechSVG").classList.add("rotate-5");
-        } else {
-            document
-                .getElementById("dinoSpeechSVG")
-                .classList.remove("rotate-5");
-            document.getElementById("dinoSpeechSVG").classList.add("-rotate-5");
-        }
+        document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
+        document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
+        await new Promise((r) => setTimeout(r, 50));
         document.querySelectorAll("audio").forEach((el) => el.pause());
-    }
-    document.getElementById("dinoSpeechSVG").classList.remove("rotate-5");
-    document.getElementById("dinoSpeechSVG").classList.remove("-rotate-5");
-    await new Promise((r) => setTimeout(r, 50));
-    document.querySelectorAll("audio").forEach((el) => el.pause());
-    if (isMakeNextButton) {
-        document.getElementById("playerTalk").innerHTML = text;
-        document.getElementById("nextSpeech").classList.remove("hidden");
-        await btnClick(document.getElementById("nextSpeech")); //wait until BUTTon press
-    }
-}
+        if (isMakeNextButton) {
+            document.getElementById("playerTalk").innerHTML = text;
+            document.getElementById("nextSpeech").classList.remove("hidden");
+            await btnClick(document.getElementById("nextSpeech")); //wait until BUTTon press
+        }
+        is_talking=false
+}}
 
-function promiseNextText() {
-    return new Promise((resolve) => {
-        document.addEventListener;
-    });
-}
+
 
 function confetti() {
     const conf_div = document.getElementById("confetti_placeholder");

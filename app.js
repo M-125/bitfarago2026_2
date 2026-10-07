@@ -13,7 +13,7 @@ let energy_multiplier = 1;
 let gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyumi_fraction]
 let numberOfRestarts = 0; // How many times has the player restarted
 let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
-let is_talking=false;
+let is_talking = false;
 
 // GLOBALS END
 
@@ -351,20 +351,23 @@ function eatFruit(fruit) {
     appleSpeech = [
         "Annyira finom ez az alma!",
         "Kaphatnék még egyet légyszi?",
-        "Ha naponta megeszek ebből egyet, nem kell orvoshoz járnom..",
+        "Minden nap egy alma, a dínót távol tartja!",
         "Imádom a piros dolgokat!",
+        "Irány az ALMAmáter!",
     ];
     grapeSpeech = [
         "Annyira fincsa ez a szőlő!",
         "Imádom a bogyókat!",
         "Az a kedvencem amikor hideg és ropogós!",
         "Igazi muskotálya van ennek!",
+        "Mennyi ropogós golyci-mojci!",
     ];
     pearSpeech = [
         "Annyira finom ez a körte!",
         "Nagyon kedvelem a körtéknek a sajátos ízét!",
         "A nagyapám vilmos körtéjéhez ez közel sincs!",
-        "Ez a körte éretlen volt :(", // REPLACE
+        "Ebből lehett volona pálinka, nincs semmi ok a pánikra!",
+        "Ez nem egy négyzet, ez egy KÖRte!",
     ];
     if (collected[fruit] > 0) // If there is one or more fruit to be eaten
     {
@@ -407,7 +410,7 @@ function gameOver() {
     document.getElementById("playArea").classList.remove("ring-4");
     init_score_div();
     numberOfRestarts += 1;
-    localStorage.setItem("numberOfRestarts",numberOfRestarts.toString())
+    localStorage.setItem("numberOfRestarts", numberOfRestarts.toString());
     hide_ui();
     if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
@@ -587,8 +590,8 @@ function set_difficulty(button) {
 }
 
 async function dinoWelcomeSpeech() {
-    numberOfRestarts=parseInt(localStorage.getItem("numberOfRestarts"))
-    if(!numberOfRestarts) numberOfRestarts=0
+    numberOfRestarts = parseInt(localStorage.getItem("numberOfRestarts"));
+    if (!numberOfRestarts) numberOfRestarts = 0;
     if (numberOfRestarts === 0) {
         await typewriterAnimation(
             "Szia! Látom ez az első alkalmad, hogy játszol.",
@@ -673,8 +676,8 @@ async function gameInstructionSpeech(isAccepted) {
 }
 
 async function typewriterAnimation(text, isMakeNextButton) {
-    if (!is_talking){
-        is_talking=true
+    if (!is_talking) {
+        is_talking = true;
         document.getElementById("nextSpeech").classList.add("hidden");
         const text_len = text.length;
         let to_be_dispalyed = "";
@@ -700,12 +703,16 @@ async function typewriterAnimation(text, isMakeNextButton) {
                 document
                     .getElementById("dinoSpeechSVG")
                     .classList.remove("-rotate-5");
-                document.getElementById("dinoSpeechSVG").classList.add("rotate-5");
+                document
+                    .getElementById("dinoSpeechSVG")
+                    .classList.add("rotate-5");
             } else {
                 document
                     .getElementById("dinoSpeechSVG")
                     .classList.remove("rotate-5");
-                document.getElementById("dinoSpeechSVG").classList.add("-rotate-5");
+                document
+                    .getElementById("dinoSpeechSVG")
+                    .classList.add("-rotate-5");
             }
             document.querySelectorAll("audio").forEach((el) => el.pause());
         }
@@ -718,10 +725,9 @@ async function typewriterAnimation(text, isMakeNextButton) {
             document.getElementById("nextSpeech").classList.remove("hidden");
             await btnClick(document.getElementById("nextSpeech")); //wait until BUTTon press
         }
-        is_talking=false
-}}
-
-
+        is_talking = false;
+    }
+}
 
 function confetti() {
     const conf_div = document.getElementById("confetti_placeholder");

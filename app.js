@@ -167,7 +167,7 @@ document.getElementById("initForm").addEventListener("submit", initGame);
 
 function initGame(event) {
     // Initializes the game; makes a popup window for size selection, displays that field, prompts user to select starting position then draws that field using drawField
-    show_ui()
+    show_ui();
     event.preventDefault();
     const formData = new FormData(event.target);
     document.getElementById("playArea").classList.add("ring-4");
@@ -283,7 +283,7 @@ async function isGameOver() {
         if (on_field_fruits_count === 0) {
             // If there are no fruits to be eaten (and isAnyFruitNearby returns false)
 
-            await typewriterAnimation("Hurrá!!!")
+            await typewriterAnimation("Hurrá!!!");
             hide_ui();
 
             confetti();
@@ -366,7 +366,7 @@ function eatFruit(fruit) {
         "Annyira finom ez a körte!",
         "Nagyon kedvelem a körtéknek a sajátos ízét!",
         "A nagyapám vilmos körtéjéhez ez közel sincs!",
-        "Ebből lehett volona pálinka, nincs semmi ok a pánikra!",
+        "Ebből lehett volna pálinka, de semmi ok a pánikra!",
         "Ez nem egy négyzet, ez egy KÖRte!",
     ];
     if (collected[fruit] > 0) // If there is one or more fruit to be eaten

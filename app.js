@@ -1,3 +1,5 @@
+const { createRef } = require("react");
+
 function gameLogic(field) {}
 
 // GLOBALS START

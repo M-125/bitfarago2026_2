@@ -417,3 +417,12 @@
         opacity: 0.5;
     }
 }
+tr td{
+    width:33%;
+    text-align: center;
+}
+table{width: 100%;}
+#listing{
+    width:25%;
+    background-color:wheat;
+}

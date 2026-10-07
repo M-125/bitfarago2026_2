@@ -14,6 +14,7 @@ let gyumi_fraction = 15; // How common is it for a fruit to get placed [1 / gyum
 let numberOfRestarts = 0; // How many times has the player restarted
 let is_game_stopped_manually = false; // Whether the game was stopped manually with the stop button
 let is_talking = false;
+let previous_games = [];
 
 // GLOBALS END
 
@@ -414,6 +415,7 @@ function gameOver() {
     hide_ui();
     if (on_field_fruits_count != 0) {
         is_game_stopped_manually = true;
+        save_game();
     } else {
         is_game_stopped_manually = false;
     }
@@ -782,6 +784,11 @@ function confetti() {
     } else {
         conf_div.innerHTML = ``;
     }
+}
+
+function save_game(final_score, difficulty, is_stopped) {
+    previous_games.push([difficulty, final_score, is_stopped]);
+    localStorage.setItem("previous_games", previous_games)
 }
 
 // TODO:

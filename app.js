@@ -357,6 +357,7 @@ function eatFruit(fruit) {
         "Imádom a bogyókat!",
         "Az a kedvencem amikor hideg és ropogós!",
         "Igazi muskotálya van ennek!",
+        "Mennyi ropogós golyci-mojci!",
     ];
     pearSpeech = [
         "Annyira finom ez a körte!",
